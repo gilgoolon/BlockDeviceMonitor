@@ -2,7 +2,7 @@
 #include <iostream>
 
 #include "udevevent.hpp"
-#include "utils.hpp"
+#include "common/utils.hpp"
 
 static constexpr size_t EXPECTED_TOKENS_EVENT_ATTRIBUTE = 2;
 static constexpr std::string_view DEFAULT_ATTRIBUTE_VALUE = "unknown";
