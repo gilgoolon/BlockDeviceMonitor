@@ -1,3 +1,6 @@
+#include <filesystem>
+using namespace std::filesystem;
+
 #include <vector>
 #include <string>
 #include "../exceptions.hpp"
@@ -5,6 +8,8 @@
 namespace strings
 {
     std::vector<std::string> split(std::string string, char token);
+
+    std::string strip(std::string str, char token);
 };
 
 namespace os
@@ -19,4 +24,6 @@ namespace os
         }
         return result;
     }
+
+    std::string read_text_file(std::filesystem::path path);
 };

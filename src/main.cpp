@@ -9,8 +9,9 @@
 #include "udevevent.hpp"
 #include "common/socket.hpp"
 #include "common/utils.hpp"
+#include "block_device.hpp"
 
-#define UEVENT_BUFFER_SIZE 2048
+constexpr size_t NETLINK_BROADCAST = 1;
 
 std::unique_ptr<Socket> make_netlink_uevent_socket()
 {
@@ -19,7 +20,7 @@ std::unique_ptr<Socket> make_netlink_uevent_socket()
     memset(&sa, 0, sizeof(sa));
     sa.nl_family = AF_NETLINK;
     sa.nl_pid = getpid();
-    sa.nl_groups = 1; // Receive broadcast messages from the kernel
+    sa.nl_groups = NETLINK_BROADCAST;
     os::covered_call(UNIX_INT_ERROR_VALUE, ::bind, auto_sock->get_socket_fd(), reinterpret_cast<struct sockaddr *>(&sa), sizeof(sa));
 
     return std::move(auto_sock);
@@ -27,18 +28,28 @@ std::unique_ptr<Socket> make_netlink_uevent_socket()
 
 int main()
 {
+    const bool dev = true;
     auto netlink_socket = make_netlink_uevent_socket();
     std::cout << "Monitoring device events..." << std::endl;
 
     while (true)
     {
         auto buffer = netlink_socket->receive();
-        std::cout << "Event received:" << std::endl;
         const std::string event_data(reinterpret_cast<char *>(buffer.data()), buffer.size());
-        UDevEvent event(event_data);
-        std::cout << "\tAction: " << event.get_action() << std::endl
+        const UDevEvent event(event_data);
+        if (!event.is_block_device_event() || (!dev && event.get_action() != "add" && event.get_action() != "remove"))
+        {
+            continue;
+        }
+        const BlockDevice block_device(event.get_devname());
+        std::cout << "Event received:" << std::endl
+                  << "\tAction: " << event.get_action() << std::endl
                   << "\tDevname: " << event.get_devname() << std::endl
-                  << "\tSubsystem: " << event.get_subsystem() << std::endl;
+                  << "\tVendor: " << block_device.get_vendor() << std::endl
+                  << "\tModel: " << block_device.get_model() << std::endl
+                  << "\tSize: " << block_device.get_size() << std::endl
+                  << "\tPartitions: " << block_device.get_partitions_count() << std::endl
+                  << "\tType: " << (block_device.is_external() ? "external" : "internal") << std::endl;
     }
     return EXIT_SUCCESS;
 }

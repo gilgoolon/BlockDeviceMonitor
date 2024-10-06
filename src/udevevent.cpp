@@ -4,8 +4,13 @@
 #include "udevevent.hpp"
 #include "common/utils.hpp"
 
+static constexpr char ATTRIBUTE_NAME_VALUE_SEPARATOR = '=';
 static constexpr size_t EXPECTED_TOKENS_EVENT_ATTRIBUTE = 2;
 static constexpr std::string_view DEFAULT_ATTRIBUTE_VALUE = "unknown";
+static constexpr std::string_view ATTRIBUTE_NAME_ACTION = "ACTION";
+static constexpr std::string_view ATTRIBUTE_NAME_DEVNAME = "DEVNAME";
+static constexpr std::string_view ATTRIBUTE_NAME_SUBSYSTEM = "SUBSYSTEM";
+static constexpr std::string_view SUBSYSTEM_BLOCK = "block";
 
 UDevEvent::UDevEvent(const std::string_view &event)
 {
@@ -20,7 +25,7 @@ UDevEvent::UDevEvent(const std::string_view &event)
             _description = current;
             continue;
         }
-        const auto tokens = strings::split(current, '=');
+        const auto tokens = strings::split(current, ATTRIBUTE_NAME_VALUE_SEPARATOR);
         if (tokens.size() != EXPECTED_TOKENS_EVENT_ATTRIBUTE)
         {
             throw std::invalid_argument("Expected " + std::to_string(EXPECTED_TOKENS_EVENT_ATTRIBUTE) + " tokens when splitting event line by '=' token. Line: '" + current + "'.");
@@ -31,26 +36,31 @@ UDevEvent::UDevEvent(const std::string_view &event)
     }
 }
 
-std::string UDevEvent::get_attribute(const std::string &name)
+std::string UDevEvent::get_attribute(const std::string &name) const
 {
-    if (_attributes.find(name) != _attributes.end())
+    if (_attributes.contains(name))
     {
-        return _attributes[name];
+        return _attributes.at(name);
     }
     return std::string(DEFAULT_ATTRIBUTE_VALUE);
 }
 
-std::string UDevEvent::get_action()
+bool UDevEvent::is_block_device_event() const
+{
+    return get_subsystem() == SUBSYSTEM_BLOCK;
+}
+
+std::string UDevEvent::get_action() const
 {
     return get_attribute(std::string(ATTRIBUTE_NAME_ACTION));
 }
 
-std::string UDevEvent::get_devname()
+std::string UDevEvent::get_devname() const
 {
     return get_attribute(std::string(ATTRIBUTE_NAME_DEVNAME));
 }
 
-std::string UDevEvent::get_subsystem()
+std::string UDevEvent::get_subsystem() const
 {
     return get_attribute(std::string(ATTRIBUTE_NAME_SUBSYSTEM));
 }
