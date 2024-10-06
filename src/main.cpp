@@ -5,6 +5,7 @@
 #include <unistd.h>
 #include <sys/socket.h>
 #include <linux/netlink.h>
+#include "udevevent.hpp"
 
 #define UEVENT_BUFFER_SIZE 2048
 
@@ -59,15 +60,11 @@ int main()
 
         std::cout << "Event received:" << std::endl;
 
-        // Parse the message (key-value pairs)
-        char *current = buffer;
-        while (current < buffer + ret)
-        {
-            std::cout << current << std::endl;
-            current += strlen(current) + 1; // Move to the next key-value pair
-        }
-
-        std::cout << std::endl; // Add a blank line between events
+        const std::string event_data(buffer, ret);
+        UDevEvent event(buffer);
+        std::cout << "\tAction: " << event.get_action() << std::endl
+                  << "\tDevname: " << event.get_devname() << std::endl
+                  << "\tSubsystem: " << event.get_subsystem() << std::endl;
     }
 
     // Cleanup
