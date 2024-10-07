@@ -8,5 +8,4 @@ message Event {
     int32 size = 5;
     int32 partitions = 6;
     string type = 7;
-    bool is_external = 8;
 }

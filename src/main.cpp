@@ -67,7 +67,7 @@ int main()
         event_to_send.set_model(block_device.get_model());
         event_to_send.set_size(block_device.get_size());
         event_to_send.set_partitions(block_device.get_partitions_count());
-        event_to_send.set_is_external(block_device.is_external() ? "external" : "internal");
+        event_to_send.set_type(block_device.is_external() ? "external" : "internal");
         std::string serialized;
         event_to_send.SerializeToString(&serialized);
         client_socket->send(serialized);
