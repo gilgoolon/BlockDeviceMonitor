@@ -1,12 +1,14 @@
 #include <sys/ioctl.h>
 #include <linux/fs.h>
 #include <fcntl.h>
+#include <algorithm>
 #include <filesystem>
 using namespace std::filesystem;
 
 #include "block_device.hpp"
 #include "common/utils.hpp"
 #include "common/auto_fd.hpp"
+#include "partition_table.hpp"
 
 BlockDevice::BlockDevice(std::string device_name) : _device_name(std::move(device_name)) {}
 
@@ -51,8 +53,16 @@ size_t BlockDevice::get_size() const
 
 size_t BlockDevice::get_partitions_count() const
 {
-    // TODO: Unimplemented
-    return 0;
+    const auto partition_table = get_partition_table();
+    const auto device_entry_result = std::find_if(partition_table.begin(), partition_table.end(), [this](const auto &entry)
+                                                  { return entry.name == _device_name; });
+    if (device_entry_result == partition_table.end())
+    {
+        return 0;
+    }
+    const auto device_entry = *device_entry_result;
+    return std::count_if(partition_table.begin(), partition_table.end(), [device_entry](const auto &entry)
+                         { return strings::starts_with(entry.name, device_entry.name) && entry.major == device_entry.major; });
 }
 
 bool BlockDevice::is_external() const

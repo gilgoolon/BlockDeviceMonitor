@@ -1,3 +1,4 @@
+#pragma once
 #include <filesystem>
 using namespace std::filesystem;
 
@@ -7,11 +8,13 @@ using namespace std::filesystem;
 
 namespace strings
 {
-    std::vector<std::string> split(std::string string, char token, size_t max);
+    std::vector<std::string> split(const std::string &string, char token, size_t max);
 
-    std::string strip(std::string str, char token);
+    std::string strip(const std::string &str, char token);
 
     std::string to_string(char c);
+
+    bool starts_with(const std::string &str, const std::string &prefix);
 };
 
 namespace os
@@ -27,5 +30,5 @@ namespace os
         return result;
     }
 
-    std::string read_text_file(std::filesystem::path path);
+    std::string read_text_file(const std::filesystem::path& path);
 };

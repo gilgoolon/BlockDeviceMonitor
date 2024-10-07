@@ -3,10 +3,9 @@
 
 #include "utils.hpp"
 
-std::vector<std::string> strings::split(std::string string, char delimiter, const size_t max)
+std::vector<std::string> strings::split(const std::string &string, char delimiter, const size_t max)
 {
-    string += delimiter;
-    std::stringstream ss(string);
+    std::stringstream ss(string + delimiter);
     std::string segment;
     std::vector<std::string> seglist;
 
@@ -23,10 +22,11 @@ std::vector<std::string> strings::split(std::string string, char delimiter, cons
     return seglist;
 }
 
-std::string strings::strip(std::string str, const char token)
+std::string strings::strip(const std::string &str, const char token)
 {
-    str.erase(std::remove(str.begin(), str.end(), token), str.cend());
-    return str;
+    std::string copy = str;
+    copy.erase(std::remove(copy.begin(), copy.end(), token), copy.cend());
+    return copy;
 }
 
 std::string strings::to_string(char c)
@@ -34,7 +34,12 @@ std::string strings::to_string(char c)
     return std::string(1, c);
 }
 
-std::string os::read_text_file(std::filesystem::path path)
+bool strings::starts_with(const std::string &str, const std::string &prefix)
+{
+    return str.find(prefix) == 0;
+}
+
+std::string os::read_text_file(const std::filesystem::path &path)
 {
     std::ifstream file(path);
     if (!file)
