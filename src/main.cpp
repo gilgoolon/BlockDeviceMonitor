@@ -30,7 +30,7 @@ std::unique_ptr<Socket> make_netlink_uevent_socket()
 
 int main()
 {
-    const bool dev = true;
+    const bool dev = false;
     auto netlink_socket = make_netlink_uevent_socket();
     std::cout << "Monitoring device events..." << std::endl;
 
