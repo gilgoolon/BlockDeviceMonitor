@@ -22,27 +22,17 @@ Buffer Socket::receive() const
     Buffer buffer;
     const size_t buff_size = DEFAULT_BUFF_SIZE;
     ssize_t read_bytes = 0;
-
     do
     {
         const size_t old_size = buffer.size();
         buffer.resize(old_size + buff_size);
-
-        iovec iov = {buffer.data(), buff_size};
-        msghdr msg;
-        memset(&msg, 0, sizeof(msg));
-
-        msg.msg_iov = &iov;
-        msg.msg_iovlen = 1;
-
-        read_bytes = os::covered_call(UNIX_INT_ERROR_VALUE, recvmsg, *_socket_fd.get(), &msg, DEFAULT_NO_FLAGS);
+        read_bytes = os::covered_call(UNIX_INT_ERROR_VALUE, recv, *_socket_fd.get(), buffer.data() + old_size, buff_size, DEFAULT_NO_FLAGS);
         if (!read_bytes)
         {
             throw DisconnectedException();
         }
         buffer.resize(old_size + read_bytes);
     } while (read_bytes >= DEFAULT_BUFF_SIZE);
-
     return buffer;
 }
 

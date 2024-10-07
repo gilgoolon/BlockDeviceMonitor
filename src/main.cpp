@@ -5,12 +5,12 @@
 #include <unistd.h>
 #include <sys/socket.h>
 #include <linux/netlink.h>
+#include <fcntl.h>
 
 #include "udevevent.hpp"
 #include "common/socket.hpp"
 #include "common/utils.hpp"
 #include "block_device.hpp"
-#include <fcntl.h>
 
 constexpr size_t NETLINK_BROADCAST = 1;
 
