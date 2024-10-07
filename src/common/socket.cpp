@@ -17,6 +17,11 @@ void Socket::send(const Buffer &data) const
     os::covered_call(UNIX_INT_ERROR_VALUE, ::send, *_socket_fd.get(), data.data(), data.size(), DEFAULT_NO_FLAGS);
 }
 
+void Socket::send(const std::string &data) const
+{
+    os::covered_call(UNIX_INT_ERROR_VALUE, ::send, *_socket_fd.get(), data.data(), data.size(), DEFAULT_NO_FLAGS);
+}
+
 Buffer Socket::receive() const
 {
     Buffer buffer;

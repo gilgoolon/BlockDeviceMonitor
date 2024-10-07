@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+message Event {
+    string action = 1;
+    string devname = 2;
+    string vendor = 3;
+    string model = 4;
+    int32 size = 5;
+    int32 partitions = 6;
+    string type = 7;
+    bool is_external = 8;
+}

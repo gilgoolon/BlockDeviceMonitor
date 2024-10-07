@@ -65,6 +65,8 @@
         "thread": "cpp",
         "codecvt": "cpp",
         "fstream": "cpp",
-        "iomanip": "cpp"
+        "iomanip": "cpp",
+        "set": "cpp",
+        "unordered_set": "cpp"
     }
 }
