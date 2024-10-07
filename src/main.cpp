@@ -10,12 +10,14 @@
 #include "common/socket.hpp"
 #include "common/utils.hpp"
 #include "block_device.hpp"
+#include <fcntl.h>
 
 constexpr size_t NETLINK_BROADCAST = 1;
 
 std::unique_ptr<Socket> make_netlink_uevent_socket()
 {
     auto auto_sock = std::make_unique<Socket>(os::covered_call(UNIX_INT_ERROR_VALUE, ::socket, AF_NETLINK, SOCK_RAW, NETLINK_KOBJECT_UEVENT));
+
     struct sockaddr_nl sa;
     memset(&sa, 0, sizeof(sa));
     sa.nl_family = AF_NETLINK;

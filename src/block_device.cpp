@@ -38,8 +38,15 @@ std::string BlockDevice::get_vendor() const
 
 size_t BlockDevice::get_size() const
 {
-    const auto vendor_path = std::filesystem::path(BLOCK_DEVICE_INFO_PATH) / _device_name / BLOCK_DEVICE_SIZE_REL_PATH;
-    return std::stol(os::read_text_file(vendor_path));
+    try
+    {
+        const auto vendor_path = std::filesystem::path(BLOCK_DEVICE_INFO_PATH) / _device_name / BLOCK_DEVICE_SIZE_REL_PATH;
+        return std::stol(os::read_text_file(vendor_path));
+    }
+    catch (...)
+    {
+        return 0;
+    }
 }
 
 size_t BlockDevice::get_partitions_count() const
@@ -50,8 +57,15 @@ size_t BlockDevice::get_partitions_count() const
 
 bool BlockDevice::is_external() const
 {
-    const auto removable_path = std::filesystem::path(BLOCK_DEVICE_INFO_PATH) / _device_name / BLOCK_DEVICE_REMOVABLE_REL_PATH;
-    return std::stoi(os::read_text_file(removable_path));
+    try
+    {
+        const auto removable_path = std::filesystem::path(BLOCK_DEVICE_INFO_PATH) / _device_name / BLOCK_DEVICE_REMOVABLE_REL_PATH;
+        return std::stoi(os::read_text_file(removable_path));
+    }
+    catch (...)
+    {
+        return false;
+    }
 }
 
 std::filesystem::path BlockDevice::get_path() const

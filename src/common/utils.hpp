@@ -7,9 +7,11 @@ using namespace std::filesystem;
 
 namespace strings
 {
-    std::vector<std::string> split(std::string string, char token);
+    std::vector<std::string> split(std::string string, char token, size_t max);
 
     std::string strip(std::string str, char token);
+
+    std::string to_string(char c);
 };
 
 namespace os

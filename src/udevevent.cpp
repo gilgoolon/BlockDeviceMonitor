@@ -25,10 +25,10 @@ UDevEvent::UDevEvent(const std::string_view &event)
             _description = current;
             continue;
         }
-        const auto tokens = strings::split(current, ATTRIBUTE_NAME_VALUE_SEPARATOR);
-        if (tokens.size() != EXPECTED_TOKENS_EVENT_ATTRIBUTE)
+        const auto tokens = strings::split(current, ATTRIBUTE_NAME_VALUE_SEPARATOR, 1); // only split by a single separator
+        if (tokens.size() == 1)                                                         // no separators found
         {
-            throw std::invalid_argument("Expected " + std::to_string(EXPECTED_TOKENS_EVENT_ATTRIBUTE) + " tokens when splitting event line by '=' token. Line: '" + current + "'.");
+            throw std::invalid_argument("Expected " + strings::to_string(ATTRIBUTE_NAME_VALUE_SEPARATOR) + " tokens when splitting event line by '=' token. Line: '" + current + "'.");
         }
         const auto attribute_name = tokens.front();
         const auto attribute_value = tokens.back();
