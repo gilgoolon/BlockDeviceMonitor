@@ -6,7 +6,7 @@
 
 static constexpr size_t NETLINK_BROADCAST = 1;
 
-std::unique_ptr<Socket> netlink::make_netlink_uevent_socket()
+std::shared_ptr<Socket> netlink::make_netlink_uevent_socket()
 {
     auto auto_sock = std::make_unique<Socket>(os::covered_call(::socket, AF_NETLINK, SOCK_RAW, NETLINK_KOBJECT_UEVENT));
 

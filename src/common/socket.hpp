@@ -19,4 +19,4 @@ private:
     const AutoFd _socket_fd;
 };
 
-std::unique_ptr<Socket> accept_client(const uint32_t port);
+std::shared_ptr<Socket> accept_client(const uint32_t port);

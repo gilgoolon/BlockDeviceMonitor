@@ -1,4 +1,6 @@
+#pragma once
 #include <string>
+
 #include "../common/buffer.hpp"
 
 class IWriter

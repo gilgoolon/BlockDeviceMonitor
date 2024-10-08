@@ -42,7 +42,7 @@ uint32_t Socket::get_socket_fd() const
     return *_socket_fd;
 }
 
-std::unique_ptr<Socket> accept_client(const uint32_t port)
+std::shared_ptr<Socket> accept_client(const uint32_t port)
 {
     ServerSocket server_socket(port);
     server_socket.listen(1);

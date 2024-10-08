@@ -1,34 +1,41 @@
 #include <iostream>
 
-#include "block_device_event.hpp"
-#include "netlink.hpp"
+#include "block_device_monitor.hpp"
+#include "exceptions.hpp"
 
-static constexpr uint32_t PORT = 8080;
-
-void display_event(const UDevEvent &event, const Socket &client_socket)
+enum ProgramArguments : int
 {
-    const BlockDevice block_device(event.get_devname());
-    std::string serialized;
-    make_block_device_event(block_device, event).SerializeToString(&serialized);
-    client_socket.send(to_buffer(serialized));
-}
+    ProgramName,
+    PortNumber,
+    EndFinal
+};
 
-int main()
+int main(const int argc, char **argv)
 {
-    auto netlink_socket = netlink::make_netlink_uevent_socket();
-    std::cout << "Waiting for client connection..." << std::endl;
-    auto client_socket = accept_client(PORT);
-    std::cout << "Monitoring device events..." << std::endl;
-
-    while (true)
+    if (ProgramArguments::EndFinal != argc)
     {
-        auto buffer = netlink_socket->receive();
-        const UDevEvent event(std::string(reinterpret_cast<char *>(buffer.data()), buffer.size()));
-        if (!should_display_event(event))
-        {
-            continue;
-        }
-        display_event(event, *client_socket);
+        std::cout << "Usage: " << argv[ProgramArguments::ProgramName] << " [port]" << std::endl;
+        return EXIT_FAILURE;
+    }
+    int port;
+    try
+    {
+        port = std::stoi(argv[ProgramArguments::PortNumber]);
+    }
+    catch (const std::invalid_argument &)
+    {
+        std::cout << "Please enter a valid port number." << std::endl;
+        return EXIT_FAILURE;
+    }
+    try
+    {
+        auto monitor = make_block_device_monitor(port);
+        monitor->start();
+    }
+    catch (const Exception &ex)
+    {
+        std::cout << "Failed to create/run monitor. Error: " << ex.what() << std::endl;
+        return EXIT_FAILURE;
     }
     return EXIT_SUCCESS;
 }

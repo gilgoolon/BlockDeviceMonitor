@@ -12,8 +12,3 @@ BlockDeviceEvent make_block_device_event(const BlockDevice &block_device, const 
     event.set_type(block_device.retrieve_is_external() ? "external" : "internal");
     return event;
 }
-
-bool should_display_event(const UDevEvent &event)
-{
-    return event.is_block_device_event() && (event.get_action() == "add" || event.get_action() == "remove");
-}
