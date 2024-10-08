@@ -40,37 +40,49 @@ std::unique_ptr<Socket> accept_client()
     return std::move(server_socket.accept());
 }
 
+Event make_event(const BlockDevice &block_device, const UDevEvent &udev_event)
+{
+    Event event;
+    event.set_action(udev_event.get_action());
+    event.set_devname(udev_event.get_devname());
+    event.set_vendor(block_device.retrieve_vendor());
+    event.set_model(block_device.retrieve_model());
+    event.set_size(block_device.retrieve_size());
+    event.set_partitions(block_device.retrieve_partitions_count());
+    event.set_type(block_device.retrieve_is_external() ? "external" : "internal");
+    return event;
+}
+
+bool should_display_event(const UDevEvent &event)
+{
+    return !event.is_block_device_event() && (event.get_action() == "add" || event.get_action() != "remove");
+}
+
+void display_event(const UDevEvent &event, const Socket &client_socket)
+{
+    const BlockDevice block_device(event.get_devname());
+    std::string serialized;
+    make_event(block_device, event).SerializeToString(&serialized);
+    client_socket.send(serialized);
+}
+
 int main()
 {
-    const bool dev = false;
+    auto netlink_socket = make_netlink_uevent_socket();
 
     std::cout << "Waiting for client connection..." << std::endl;
     auto client_socket = accept_client();
-
-    auto netlink_socket = make_netlink_uevent_socket();
     std::cout << "Monitoring device events..." << std::endl;
 
     while (true)
     {
         auto buffer = netlink_socket->receive();
-        const std::string event_data(reinterpret_cast<char *>(buffer.data()), buffer.size());
-        const UDevEvent event(event_data);
-        if (!event.is_block_device_event() || (!dev && event.get_action() != "add" && event.get_action() != "remove"))
+        const UDevEvent event(std::string(reinterpret_cast<char *>(buffer.data()), buffer.size()));
+        if (!should_display_event(event))
         {
             continue;
         }
-        const BlockDevice block_device(event.get_devname());
-        Event event_to_send;
-        event_to_send.set_action(event.get_action());
-        event_to_send.set_devname(event.get_devname());
-        event_to_send.set_vendor(block_device.retrieve_vendor());
-        event_to_send.set_model(block_device.retrieve_model());
-        event_to_send.set_size(block_device.retrieve_size());
-        event_to_send.set_partitions(block_device.retrieve_partitions_count());
-        event_to_send.set_type(block_device.retrieve_is_external() ? "external" : "internal");
-        std::string serialized;
-        event_to_send.SerializeToString(&serialized);
-        client_socket->send(serialized);
+        display_event(event, *client_socket);
     }
     return EXIT_SUCCESS;
 }
