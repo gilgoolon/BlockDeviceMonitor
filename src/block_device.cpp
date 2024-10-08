@@ -12,7 +12,7 @@ using namespace std::filesystem;
 
 BlockDevice::BlockDevice(std::string device_name) : _device_name(std::move(device_name)) {}
 
-std::string BlockDevice::get_model() const
+std::string BlockDevice::retrieve_model() const
 {
     try
     {
@@ -25,7 +25,7 @@ std::string BlockDevice::get_model() const
     }
 }
 
-std::string BlockDevice::get_vendor() const
+std::string BlockDevice::retrieve_vendor() const
 {
     try
     {
@@ -38,7 +38,7 @@ std::string BlockDevice::get_vendor() const
     }
 }
 
-size_t BlockDevice::get_size() const
+size_t BlockDevice::retrieve_size() const
 {
     try
     {
@@ -51,7 +51,7 @@ size_t BlockDevice::get_size() const
     }
 }
 
-size_t BlockDevice::get_partitions_count() const
+size_t BlockDevice::retrieve_partitions_count() const
 {
     const auto partition_table = get_partition_table();
     const auto device_entry_result = std::find_if(partition_table.begin(), partition_table.end(), [this](const auto &entry)
@@ -65,7 +65,7 @@ size_t BlockDevice::get_partitions_count() const
                          { return strings::starts_with(entry.name, device_entry.name) && entry.major == device_entry.major; });
 }
 
-bool BlockDevice::is_external() const
+bool BlockDevice::retrieve_is_external() const
 {
     try
     {
