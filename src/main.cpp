@@ -10,7 +10,7 @@ void display_event(const UDevEvent &event, const Socket &client_socket)
     const BlockDevice block_device(event.get_devname());
     std::string serialized;
     make_block_device_event(block_device, event).SerializeToString(&serialized);
-    client_socket.send(serialized);
+    client_socket.send(to_buffer(serialized));
 }
 
 int main()
