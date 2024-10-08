@@ -8,6 +8,7 @@
 #include "common/auto_fd.hpp"
 #include "partition_table.hpp"
 #include "common/unix.hpp"
+#include <iostream>
 
 BlockDevice::BlockDevice(std::string device_name) : _device_name(std::move(device_name)) {}
 
@@ -98,6 +99,7 @@ bool BlockDevice::retrieve_is_external() const
     }
     catch (const Exception &ex)
     {
+        std::cout << ex.what() << std::endl;
         if (ex.code() == ExceptionCode::InvalidFile)
         {
             throw Exception(ExceptionCode::MissingInformation, "external file doesn't exist for device " + _device_name);
