@@ -5,6 +5,7 @@ using namespace std::filesystem;
 #include <vector>
 #include <string>
 #include "../exceptions.hpp"
+#include "unix.hpp"
 
 namespace strings
 {
@@ -19,6 +20,8 @@ namespace strings
 
 namespace os
 {
+    constexpr int UNIX_INT_ERROR_VALUE = -1;
+
     template <typename Func, typename... Args>
     int covered_call(const int error_value, Func func, Args... args)
     {
@@ -30,5 +33,11 @@ namespace os
         return result;
     }
 
-    std::string read_text_file(const std::filesystem::path& path);
+    template <typename Func, typename... Args>
+    int covered_call(Func func, Args... args)
+    {
+        return covered_call(UNIX_INT_ERROR_VALUE, func, args...);
+    }
+
+    std::string read_text_file(const std::filesystem::path &path);
 };

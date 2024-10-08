@@ -21,14 +21,14 @@ constexpr uint32_t PORT = 8080;
 
 std::unique_ptr<Socket> make_netlink_uevent_socket()
 {
-    auto auto_sock = std::make_unique<Socket>(os::covered_call(UNIX_INT_ERROR_VALUE, ::socket, AF_NETLINK, SOCK_RAW, NETLINK_KOBJECT_UEVENT));
+    auto auto_sock = std::make_unique<Socket>(os::covered_call(::socket, AF_NETLINK, SOCK_RAW, NETLINK_KOBJECT_UEVENT));
 
     struct sockaddr_nl sa;
     memset(&sa, 0, sizeof(sa));
     sa.nl_family = AF_NETLINK;
     sa.nl_pid = getpid();
     sa.nl_groups = NETLINK_BROADCAST;
-    os::covered_call(UNIX_INT_ERROR_VALUE, ::bind, auto_sock->get_socket_fd(), reinterpret_cast<sockaddr *>(&sa), sizeof(sa));
+    os::covered_call(::bind, auto_sock->get_socket_fd(), reinterpret_cast<sockaddr *>(&sa), sizeof(sa));
 
     return std::move(auto_sock);
 }
