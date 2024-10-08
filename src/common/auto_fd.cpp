@@ -1,23 +1,43 @@
 #include "auto_fd.hpp"
 #include "utils.hpp"
 
-AutoFd make_auto_fd(const int fd)
+AutoFd::AutoFd(const int fd)
+    : _fd(fd)
 {
-    return AutoFd(fd != os::UNIX_INT_ERROR_VALUE ? new int(fd) : nullptr);
 }
 
-void FdCloser::operator()(const int *fd) const
+AutoFd::AutoFd(const AutoFd &&fd)
+{
+    _fd = fd._fd;
+}
+
+AutoFd &AutoFd::operator=(const AutoFd &&fd)
+{
+    _fd = fd._fd;
+    return *this;
+}
+
+AutoFd::~AutoFd()
 {
     try
     {
 
-        if (os::UNIX_INT_ERROR_VALUE != *fd)
+        if (os::UNIX_INT_ERROR_VALUE != _fd)
         {
-            os::covered_call(::close, *fd);
+            os::covered_call(::close, _fd);
         }
     }
     catch (...)
     {
-        // destructor... should log error here when logging mechanism is implemented
     }
+}
+
+int AutoFd::get() const
+{
+    return _fd;
+}
+
+int AutoFd::operator*() const
+{
+    return get();
 }

@@ -4,11 +4,25 @@
 
 #include "unix.hpp"
 
-struct FdCloser final
+class AutoFd final
 {
-    void operator()(const int *fd) const;
+public:
+    explicit AutoFd(const int fd);
+
+    AutoFd(const AutoFd &fd) = delete;
+
+    AutoFd(const AutoFd &&fd);
+
+    AutoFd &operator=(const AutoFd &fd) = delete;
+
+    AutoFd &operator=(const AutoFd &&fd);
+
+    ~AutoFd();
+
+    int get() const;
+
+    int operator*() const;
+
+private:
+    int _fd;
 };
-
-using AutoFd = std::unique_ptr<int, FdCloser>;
-
-AutoFd make_auto_fd(int fd);

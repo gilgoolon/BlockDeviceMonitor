@@ -8,18 +8,18 @@
 #include "../exceptions.hpp"
 
 Socket::Socket(const int socket_fd)
-    : _socket_fd(std::move(make_auto_fd(socket_fd)))
+    : _socket_fd(socket_fd)
 {
 }
 
 void Socket::send(const Buffer &data) const
 {
-    os::covered_call(::send, *_socket_fd.get(), data.data(), data.size(), flags::DEFAULT_NO_FLAGS);
+    os::covered_call(::send, *_socket_fd, data.data(), data.size(), flags::DEFAULT_NO_FLAGS);
 }
 
 void Socket::send(const std::string &data) const
 {
-    os::covered_call(::send, *_socket_fd.get(), data.data(), data.size(), flags::DEFAULT_NO_FLAGS);
+    os::covered_call(::send, *_socket_fd, data.data(), data.size(), flags::DEFAULT_NO_FLAGS);
 }
 
 Buffer Socket::receive() const
@@ -31,7 +31,7 @@ Buffer Socket::receive() const
     {
         const size_t old_size = buffer.size();
         buffer.resize(old_size + buff_size);
-        read_bytes = os::covered_call(recv, *_socket_fd.get(), buffer.data() + old_size, buff_size, flags::DEFAULT_NO_FLAGS);
+        read_bytes = os::covered_call(recv, *_socket_fd, buffer.data() + old_size, buff_size, flags::DEFAULT_NO_FLAGS);
         if (!read_bytes)
         {
             throw DisconnectedException();
@@ -43,5 +43,5 @@ Buffer Socket::receive() const
 
 uint32_t Socket::get_socket_fd() const
 {
-    return *_socket_fd.get();
+    return *_socket_fd;
 }
