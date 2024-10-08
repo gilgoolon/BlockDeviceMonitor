@@ -7,6 +7,19 @@ using namespace std::filesystem;
 #include "../exceptions.hpp"
 #include "unix.hpp"
 
+#define EMPTY_CATCH_BEG \
+    try                 \
+    {
+#define EMPTY_CATCH_END(exception_code)  \
+    }                                    \
+    catch (const Exception &ex)          \
+    {                                    \
+        if (ex.code() != exception_code) \
+        {                                \
+            throw ex;                    \
+        }                                \
+    }
+
 namespace strings
 {
     std::vector<std::string> split(const std::string &string, char token, size_t max);
@@ -37,6 +50,19 @@ namespace os
     int covered_call(Func func, Args... args)
     {
         return covered_call(UNIX_INT_ERROR_VALUE, func, args...);
+    }
+
+    template <typename Callable, typename ReturnType, typename... Args>
+    ReturnType call_with_default(const ReturnType &default_value, Callable func, Args... args)
+    {
+        try
+        {
+            return func(args...);
+        }
+        catch (const Exception &e)
+        {
+            return default_value;
+        }
     }
 
     std::string read_text_file(const std::filesystem::path &path);

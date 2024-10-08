@@ -18,9 +18,16 @@ std::string BlockDevice::retrieve_model() const
         const auto model_path = paths::CLASS_BLOCK_DEVICE_INFO_PATH / _device_name / paths::BLOCK_DEVICE_MODEL_REL_PATH;
         return strings::strip(os::read_text_file(model_path), '\n');
     }
-    catch (...)
+    catch (const Exception &ex)
     {
-        return std::string(DEFAULT_ATTRIBUTE_VALUE);
+        if (ex.code() == ExceptionCode::InvalidFile)
+        {
+            throw Exception(ExceptionCode::MissingInformation, "model file doesn't exist for device " + _device_name);
+        }
+        else
+        {
+            throw ex;
+        }
     }
 }
 
@@ -31,9 +38,16 @@ std::string BlockDevice::retrieve_vendor() const
         const auto vendor_path = paths::CLASS_BLOCK_DEVICE_INFO_PATH / _device_name / paths::BLOCK_DEVICE_VENDOR_REL_PATH;
         return strings::strip(os::read_text_file(vendor_path), '\n');
     }
-    catch (...)
+    catch (const Exception &ex)
     {
-        return std::string(DEFAULT_ATTRIBUTE_VALUE);
+        if (ex.code() == ExceptionCode::InvalidFile)
+        {
+            throw Exception(ExceptionCode::MissingInformation, "vendor file doesn't exist for device " + _device_name);
+        }
+        else
+        {
+            throw ex;
+        }
     }
 }
 
@@ -44,9 +58,20 @@ size_t BlockDevice::retrieve_size() const
         const auto vendor_path = paths::BLOCK_DEVICE_INFO_PATH / _device_name / paths::BLOCK_DEVICE_SIZE_REL_PATH;
         return std::stol(os::read_text_file(vendor_path));
     }
-    catch (...)
+    catch (const Exception &ex)
     {
-        return 0;
+        if (ex.code() == ExceptionCode::InvalidFile)
+        {
+            throw Exception(ExceptionCode::MissingInformation, "size file doesn't exist for device " + _device_name);
+        }
+        else
+        {
+            throw ex;
+        }
+    }
+    catch (const std::invalid_argument &ex)
+    {
+        throw Exception(ExceptionCode::MissingInformation, "size file contents were not a valid size for device " + _device_name);
     }
 }
 
@@ -57,7 +82,7 @@ size_t BlockDevice::retrieve_partitions_count() const
                                                   { return entry.name == _device_name; });
     if (device_entry_result == partition_table.end())
     {
-        return 0;
+        throw Exception(ExceptionCode::MissingInformation, "device is not in partitions table");
     }
     const auto device_entry = *device_entry_result;
     return std::count_if(partition_table.begin(), partition_table.end(), [device_entry](const auto &entry)
@@ -71,9 +96,16 @@ bool BlockDevice::retrieve_is_external() const
         const auto removable_path = paths::BLOCK_DEVICE_INFO_PATH / _device_name / paths::BLOCK_DEVICE_REMOVABLE_REL_PATH;
         return std::stoi(os::read_text_file(removable_path));
     }
-    catch (...)
+    catch (const Exception &ex)
     {
-        return false;
+        if (ex.code() == ExceptionCode::InvalidFile)
+        {
+            throw Exception(ExceptionCode::MissingInformation, "external file doesn't exist for device " + _device_name);
+        }
+        else
+        {
+            throw ex;
+        }
     }
 }
 

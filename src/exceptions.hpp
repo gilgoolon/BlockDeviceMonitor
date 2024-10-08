@@ -4,10 +4,12 @@
 #include <cstring>
 #include <cerrno>
 #include <sstream>
-#define DEFINE_EXCEPTION_CODES \
-    ENUM_CODE(ErrnoException)  \
-    ENUM_CODE(InvalidArgument) \
-    ENUM_CODE(DisconnectedException)
+#define DEFINE_EXCEPTION_CODES       \
+    ENUM_CODE(ErrnoException)        \
+    ENUM_CODE(InvalidArgument)       \
+    ENUM_CODE(DisconnectedException) \
+    ENUM_CODE(InvalidFile)           \
+    ENUM_CODE(MissingInformation)
 
 // Macro to define the enum
 #define ENUM_CODE(code) code,

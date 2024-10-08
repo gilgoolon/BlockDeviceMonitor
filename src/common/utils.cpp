@@ -44,7 +44,7 @@ std::string os::read_text_file(const std::filesystem::path &path)
     std::ifstream file(path);
     if (!file)
     {
-        throw std::runtime_error("Failed to open file");
+        throw Exception(ExceptionCode::InvalidFile, "Failed to open file");
     }
 
     std::ostringstream content;
