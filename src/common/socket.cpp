@@ -34,7 +34,7 @@ Buffer Socket::receive() const
         read_bytes = os::covered_call(recv, *_socket_fd, buffer.data() + old_size, buff_size, flags::DEFAULT_NO_FLAGS);
         if (!read_bytes)
         {
-            throw DisconnectedException();
+            throw Exception(ExceptionCode::DisconnectedException, "client closed the connection");
         }
         buffer.resize(old_size + read_bytes);
     } while (read_bytes >= DEFAULT_BUFF_SIZE);
