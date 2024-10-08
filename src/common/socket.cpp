@@ -6,6 +6,7 @@
 #include "socket.hpp"
 #include "utils.hpp"
 #include "../exceptions.hpp"
+#include "server_socket.hpp"
 
 Socket::Socket(const int socket_fd)
     : _socket_fd(socket_fd)
@@ -44,4 +45,11 @@ Buffer Socket::receive() const
 uint32_t Socket::get_socket_fd() const
 {
     return *_socket_fd;
+}
+
+std::unique_ptr<Socket> accept_client(const uint32_t port)
+{
+    ServerSocket server_socket(port);
+    server_socket.listen(1);
+    return std::move(server_socket.accept());
 }

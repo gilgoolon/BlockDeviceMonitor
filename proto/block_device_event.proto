@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-message Event {
+message BlockDeviceEvent {
     string action = 1;
     string devname = 2;
     string vendor = 3;
