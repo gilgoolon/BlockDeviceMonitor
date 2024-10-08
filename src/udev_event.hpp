@@ -1,10 +1,11 @@
+#pragma once
 #include <string>
 #include <map>
 
 class UDevEvent final
 {
 public:
-    UDevEvent(const std::string_view &event);
+    explicit UDevEvent(const std::string &event);
 
     std::string get_attribute(const std::string &name) const;
 
@@ -19,4 +20,6 @@ public:
 private:
     std::string _description;
     std::map<std::string, std::string> _attributes;
+
+    void parse_event(const std::string &event);
 };
