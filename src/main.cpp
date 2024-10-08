@@ -14,7 +14,7 @@
 #include "common/utils.hpp"
 #include "block_device.hpp"
 #include "common/server_socket.hpp"
-#include "event.pb.hpp"
+#include "proto/event.pb.h"
 
 constexpr size_t NETLINK_BROADCAST = 1;
 constexpr uint32_t PORT = 8080;
