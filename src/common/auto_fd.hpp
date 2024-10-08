@@ -6,13 +6,7 @@
 
 struct FdCloser final
 {
-    void operator()(const int *fd) const
-    {
-        if (UNIX_INT_ERROR_VALUE != *fd)
-        {
-            ::close(*fd);
-        }
-    }
+    void operator()(const int *fd) const;
 };
 
 using AutoFd = std::unique_ptr<int, FdCloser>;
