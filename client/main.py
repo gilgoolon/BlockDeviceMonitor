@@ -1,5 +1,5 @@
 import socket
-import block_device_event_pb2
+import server_message_pb2
 
 
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client:
@@ -7,8 +7,17 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client:
 
     while True:
         data = client.recv(1024)
+        
+        if not data:
+            break
 
-        event = block_device_event_pb2.BlockDeviceEvent()
-        event.ParseFromString(data)
+        message = server_message_pb2.ServerMessage()
+        message.ParseFromString(data)
 
-        print(f"Received Protobuf Event: Action={block_device_event_pb2.BlockDeviceEventAction.Name(event.action)}, Devname={event.devname}, Vendor={event.vendor}, Model={event.model}, Size={event.size}, Partitions={event.partitions}, Type={block_device_event_pb2.BlockDeviceType.Name(event.type) if event.type is not None else event.type}")
+        if message.content.Is(server_message_pb2.ReportEventServerMessageContent.DESCRIPTOR):
+            content = server_message_pb2.ReportEventServerMessageContent()
+            message.content.Unpack(content)
+            event = content.event
+            print(f"Type={message.type}, Event: Action={event.action}, Name={event.devname}")
+        else:
+            print("Different type of message")

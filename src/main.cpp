@@ -6,7 +6,7 @@
 enum ProgramArguments : int
 {
     ProgramName,
-    PortNumber,
+    Port,
     EndFinal
 };
 
@@ -17,10 +17,10 @@ int main(const int argc, char **argv)
         std::cout << "Usage: " << argv[ProgramArguments::ProgramName] << " [port]" << std::endl;
         return EXIT_FAILURE;
     }
-    int port;
+    uint32_t port;
     try
     {
-        port = std::stoi(argv[ProgramArguments::PortNumber]);
+        port = std::stoi(argv[ProgramArguments::Port]);
     }
     catch (const std::invalid_argument &)
     {
@@ -30,6 +30,7 @@ int main(const int argc, char **argv)
     try
     {
         auto monitor = make_block_device_monitor(port);
+        std::cout << "Monitoring device events..." << std::endl;
         monitor->start();
     }
     catch (const Exception &ex)

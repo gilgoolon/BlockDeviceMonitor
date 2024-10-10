@@ -1,0 +1,27 @@
+syntax = "proto3";
+import "google/protobuf/any.proto";
+import "block_device_event.proto";
+
+enum ServerMessageType {
+    STATUS_RESPONSE = 0;
+    REPORT_EVENT = 1;
+}
+
+message ServerMessage {
+    ServerMessageType type = 1;
+    optional google.protobuf.Any content = 2;
+}
+
+enum ResponseCode {
+    SUCCESS = 0;
+    ERROR = 1;
+}
+
+message ResponseServerMessageContent {
+    ResponseCode code = 1;
+    optional string error_message = 2;
+}
+
+message ReportEventServerMessageContent {
+    BlockDeviceEvent event = 1;
+}

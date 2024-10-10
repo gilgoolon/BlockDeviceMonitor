@@ -12,7 +12,7 @@ public:
 
     void listen(size_t max_connections) const;
 
-    std::unique_ptr<Socket> accept() const;
+    std::shared_ptr<Socket> accept() const;
 
 private:
     const AutoFd _socket_fd;

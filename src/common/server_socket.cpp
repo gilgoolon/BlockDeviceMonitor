@@ -19,9 +19,9 @@ void ServerSocket::listen(const size_t max_connections) const
                      max_connections);
 }
 
-std::unique_ptr<Socket> ServerSocket::accept() const
+std::shared_ptr<Socket> ServerSocket::accept() const
 {
-    return std::make_unique<Socket>(
+    return std::make_shared<Socket>(
         os::covered_call(::accept, *_socket_fd,
                          flags::OPTIONAL_NO_OUTPUT, flags::OPTIONAL_NO_OUTPUT));
 }

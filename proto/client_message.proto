@@ -1,0 +1,23 @@
+syntax = "proto3";
+import "google/protobuf/any.proto";
+
+import "rule.proto";
+
+enum ClientMessageType {
+    ADD_RULE = 0;
+    REMOVE_RULE = 1;
+    GET_EXISTING_RULES = 2;
+}
+
+message ClientMessage {
+    ClientMessageType type = 1;
+    optional google.protobuf.Any content = 2;
+}
+
+message AddRuleClientMessageContent {
+    Rule rule = 1;
+}
+
+message RemoveRuleClientMessageContent {
+    uint32 rule_index = 1;
+}
