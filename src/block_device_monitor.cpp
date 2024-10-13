@@ -10,6 +10,8 @@
 #include "readers/socket_reader.hpp"
 #include "common/auto_lock.hpp"
 #include "common/utils.hpp"
+#include "common/auto_mount.hpp"
+#include "common/temp_folder.hpp"
 
 BlockDeviceMonitor::BlockDeviceMonitor(std::unique_ptr<IReader> event_reader, std::unique_ptr<ClientAccepter> client_accepter)
     : _event_reader(std::move(event_reader)), _client_accepter(std::move(client_accepter)), _clients_lock(std::make_shared<std::mutex>()), _rules_manager(std::make_shared<RulesManager>())
@@ -129,18 +131,44 @@ void BlockDeviceMonitor::perform_drop_file_action(const BlockDevice &device, con
 {
     RuleActionDropFile drop_file_action;
     action.action().UnpackTo(&drop_file_action);
+    os::TempFolder mount_folder(std::string("/tmp/block-device-monitor-mount-") + device.get_name() + "-XXXXXX");
+    {
+        os::AutoMount auto_mount(device.get_path(), mount_folder.get());
+        std::filesystem::copy(drop_file_action.src_path(), mount_folder.get() / drop_file_action.dst_path());
+    }
+    // TODO: Implement report operation before/after
 }
 
 void BlockDeviceMonitor::perform_move_file_action(const BlockDevice &device, const RuleAction &action)
 {
+    RuleActionMoveFile move_file_action;
+    action.action().UnpackTo(&move_file_action);
+    os::TempFolder mount_folder(std::string("/tmp/block-device-monitor-mount-") + device.get_name() + "-XXXXXX");
+    {
+        os::AutoMount auto_mount(device.get_path(), mount_folder.get());
+        std::filesystem::rename(mount_folder.get() / move_file_action.src_path(), mount_folder.get() / move_file_action.dst_path());
+    }
+    // TODO: Implement report operation before/after
 }
 
 void BlockDeviceMonitor::perform_delete_file_action(const BlockDevice &device, const RuleAction &action)
 {
+    RuleActionDeleteFile delete_file_action;
+    action.action().UnpackTo(&delete_file_action);
+    os::TempFolder mount_folder(std::string("/tmp/block-device-monitor-mount-") + device.get_name() + "-XXXXXX");
+    {
+        os::AutoMount auto_mount(device.get_path(), mount_folder.get());
+        std::filesystem::remove(mount_folder.get() / delete_file_action.path());
+    }
+    // TODO: Implement report operation before/after
 }
 
 void BlockDeviceMonitor::perform_copy_device_action(const BlockDevice &device, const RuleAction &action)
 {
+    const auto dest = DUMPS_FOLDER / (device.get_name() + "-" + os::current_unix_timestamp_str());
+    os::makedirs(dest);
+    // TODO: Implement progress reporting and copying in steps - allow partial copying
+    std::filesystem::copy(device.get_path(), dest);
 }
 
 std::unique_ptr<BlockDeviceMonitor> make_block_device_monitor(const uint32_t port)

@@ -54,6 +54,21 @@ std::string os::read_text_file(const std::filesystem::path &path)
     return content.str();
 }
 
+std::string os::current_unix_timestamp_str()
+{
+    return std::to_string(std::time(nullptr));
+}
+
+void os::makedirs(const std::filesystem::path &path)
+{
+    std::filesystem::path working_path = path;
+    if (!std::filesystem::is_directory(working_path))
+    {
+        working_path = working_path.parent_path();
+    }
+    std::filesystem::create_directories(working_path);
+}
+
 bool rules::is_rule_matching(const RuleFilter &rule, const BlockDevice &device)
 {
     if (rule.has_model_regex() && !std::regex_match(device.retrieve_model(), std::regex(rule.model_regex())))

@@ -18,8 +18,10 @@ public:
 
     bool retrieve_is_external() const;
 
+    std::filesystem::path get_path() const;
+
+    std::string get_name() const;
+
 private:
     const std::string _device_name;
-
-    std::filesystem::path get_path() const;
 };

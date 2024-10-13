@@ -72,5 +72,6 @@
         "bitset": "cpp",
         "regex": "cpp",
         "filesystem": "cpp"
-    }
+    },
+    "C_Cpp.errorSquiggles": "enabled"
 }

@@ -12,6 +12,11 @@
 
 BlockDevice::BlockDevice(std::string device_name) : _device_name(std::move(device_name)) {}
 
+std::string BlockDevice::get_name() const
+{
+    return _device_name;
+}
+
 std::string BlockDevice::retrieve_model() const
 {
     try

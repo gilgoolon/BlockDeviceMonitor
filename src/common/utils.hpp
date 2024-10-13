@@ -68,6 +68,10 @@ namespace os
     }
 
     std::string read_text_file(const std::filesystem::path &path);
+
+    std::string current_unix_timestamp_str();
+
+    void makedirs(const std::filesystem::path &path);
 };
 
 namespace rules

@@ -1,5 +1,7 @@
 #pragma once
 #include <memory>
+#include <filesystem>
+using namespace std::filesystem;
 
 #include "writers/writer.hpp"
 #include "readers/reader.hpp"
@@ -10,6 +12,9 @@
 #include "rules_manager.hpp"
 #include "proto/rule.pb.h"
 #include "block_device.hpp"
+
+const static std::filesystem::path RESULTS_FOLDER = "results";
+const static std::filesystem::path DUMPS_FOLDER = RESULTS_FOLDER / "dumps";
 
 class BlockDeviceMonitor final
 {
