@@ -104,7 +104,6 @@ bool BlockDevice::retrieve_is_external() const
     }
     catch (const Exception &ex)
     {
-        std::cout << ex.what() << std::endl;
         if (ex.code() == ExceptionCode::InvalidFile)
         {
             throw Exception(ExceptionCode::MissingInformation, "external file doesn't exist for device " + _device_name);

@@ -20,8 +20,9 @@ BlockDeviceMonitor::BlockDeviceMonitor(std::unique_ptr<IReader> event_reader, st
 
 void BlockDeviceMonitor::start()
 {
-    std::thread accept_clients_tread(&BlockDeviceMonitor::accept_clients_loop, this);
-    accept_clients_tread.detach();
+    // TODO: Support graceful shutdown wherever possible
+    std::thread accept_clients_thread(&BlockDeviceMonitor::accept_clients_loop, this);
+    accept_clients_thread.detach();
 
     while (true)
     {
