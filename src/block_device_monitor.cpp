@@ -67,10 +67,8 @@ void BlockDeviceMonitor::report_event(const UDevEvent &event)
     ReportEventServerMessageContent message_content;
     *message_content.mutable_event() = make_block_device_event(block_device, event);
 
-    // TODO: Make functions to handle these protobuf operations
     ServerMessage message;
-    google::protobuf::Any *content = message.mutable_content();
-    content->PackFrom(message_content);
+    message.mutable_content()->PackFrom(message_content);
     for (auto &client : _clients)
     {
         client->send(message);
@@ -79,7 +77,7 @@ void BlockDeviceMonitor::report_event(const UDevEvent &event)
 
 bool BlockDeviceMonitor::should_report_event(const UDevEvent &event)
 {
-    return event.is_block_device_event() && (event.get_action() == "add" || event.get_action() == "remove");
+    return event.is_block_device_event() && (event.get_action() == ADD_ACTION_LABEL || event.get_action() == REMOVE_ACTION_LABEL);
 }
 
 std::unique_ptr<BlockDeviceMonitor> make_block_device_monitor(const uint32_t port)
