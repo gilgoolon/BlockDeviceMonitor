@@ -1,4 +1,5 @@
 syntax = "proto3";
+import "google/protobuf/any.proto";
 
 message Rule {
     RuleFilter filter = 1;
@@ -19,21 +20,19 @@ enum RuleActionType {
 
 message RuleAction {
     RuleActionType type = 1;
+    google.protobuf.Any action = 2;
 }
 
 message RuleActionDropFile {
-    RuleActionType type = 1;
     string src_path = 2;
     string dst_path = 3;
 }
 
 message RuleActionMoveFile {
-    RuleActionType type = 1;
     string src_path = 2;
     string dst_path = 3;
 }
 
 message RuleActionDeleteFile {
-    RuleActionType type = 1;
     string path = 2;
 }
