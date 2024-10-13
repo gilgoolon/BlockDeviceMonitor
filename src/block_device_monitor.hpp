@@ -20,6 +20,7 @@ private:
     std::unique_ptr<ClientAccepter> _client_accepter;
     std::vector<std::shared_ptr<Client>> _clients;
     std::shared_ptr<std::mutex> _clients_lock;
+    std::shared_ptr<std::vector<Rule>> _rules;
 
     [[noreturn]] void accept_clients_loop();
 

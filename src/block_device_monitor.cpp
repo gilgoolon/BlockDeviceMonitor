@@ -10,7 +10,7 @@
 #include "common/auto_lock.hpp"
 
 BlockDeviceMonitor::BlockDeviceMonitor(std::unique_ptr<IReader> event_reader, std::unique_ptr<ClientAccepter> client_accepter)
-    : _event_reader(std::move(event_reader)), _client_accepter(std::move(client_accepter)), _clients_lock(std::make_shared<std::mutex>())
+    : _event_reader(std::move(event_reader)), _client_accepter(std::move(client_accepter)), _clients_lock(std::make_shared<std::mutex>()), _rules(std::make_shared<std::vector<Rule>>())
 {
 }
 
@@ -47,7 +47,7 @@ void BlockDeviceMonitor::handle_client(std::shared_ptr<Client> client)
         AutoLock auto_clients_lock(_clients_lock);
         _clients.push_back(client);
     }
-    ClientHandler handler(client);
+    ClientHandler handler(client, _rules);
     try
     {
         handler.handle_indefinitely();

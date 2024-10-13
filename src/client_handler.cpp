@@ -1,7 +1,7 @@
 #include "client_handler.hpp"
 
-ClientHandler::ClientHandler(std::shared_ptr<Client> client)
-    : _client(client)
+ClientHandler::ClientHandler(std::shared_ptr<Client> client, std::shared_ptr<std::vector<Rule>> rules)
+    : _client(client), _rules(std::move(rules))
 {
 }
 
