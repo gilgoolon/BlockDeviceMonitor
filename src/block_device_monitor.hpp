@@ -7,6 +7,7 @@
 #include "client.hpp"
 #include "client_handler.hpp"
 #include "client_accepter.hpp"
+#include "rules_manager.hpp"
 
 static constexpr std::string_view ADD_ACTION_LABEL = "add";
 static constexpr std::string_view REMOVE_ACTION_LABEL = "remove";
@@ -23,7 +24,7 @@ private:
     std::unique_ptr<ClientAccepter> _client_accepter;
     std::vector<std::shared_ptr<Client>> _clients;
     std::shared_ptr<std::mutex> _clients_lock;
-    std::shared_ptr<std::vector<Rule>> _rules;
+    std::shared_ptr<RulesManager> _rules_manager;
 
     [[noreturn]] void accept_clients_loop();
 
