@@ -1,6 +1,7 @@
 syntax = "proto3";
 import "google/protobuf/any.proto";
 import "block_device_event.proto";
+import "rule.proto";
 
 enum ServerMessageType {
     STATUS_RESPONSE = 0;
@@ -24,4 +25,8 @@ message ResponseServerMessageContent {
 
 message ReportEventServerMessageContent {
     BlockDeviceEvent event = 1;
+}
+
+message ExistingRulesServerMessageContent {
+    repeated Rule rules = 1;
 }
