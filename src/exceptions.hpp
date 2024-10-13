@@ -9,6 +9,7 @@
     ENUM_CODE(InvalidArgument)       \
     ENUM_CODE(DisconnectedException) \
     ENUM_CODE(InvalidFile)           \
+    ENUM_CODE(RuntimeError)          \
     ENUM_CODE(MissingInformation)
 
 // Macro to define the enum

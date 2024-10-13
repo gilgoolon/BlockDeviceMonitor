@@ -70,6 +70,7 @@
         "unordered_set": "cpp",
         "*.inc": "cpp",
         "bitset": "cpp",
-        "regex": "cpp"
+        "regex": "cpp",
+        "filesystem": "cpp"
     }
 }

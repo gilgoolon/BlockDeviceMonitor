@@ -72,5 +72,5 @@ namespace os
 
 namespace rules
 {
-    bool is_rule_matching(const Rule &rule, const BlockDevice &device);
+    bool is_rule_matching(const RuleFilter &rule, const BlockDevice &device);
 };

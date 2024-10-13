@@ -91,10 +91,56 @@ void BlockDeviceMonitor::apply_rules_for_device(const std::string &device_name)
     const BlockDevice device(device_name);
     for (const auto &rule : *_rules_manager)
     {
-        if (rules::is_rule_matching(rule, device))
+        if (!rules::is_rule_matching(rule.filter(), device))
         {
+            continue;
         }
+        std::cout << "Matched rule for device: " << device_name << std::endl;
+        perform_action_on_device(device, rule.action());
     }
+}
+
+void BlockDeviceMonitor::perform_action_on_device(const BlockDevice &device, const RuleAction &action)
+{
+    switch (action.type())
+    {
+    case DROP_FILE:
+        perform_drop_file_action(device, action);
+        break;
+
+    case MOVE_FILE:
+        perform_move_file_action(device, action);
+        break;
+
+    case DELETE_FILE:
+        perform_delete_file_action(device, action);
+        break;
+
+    case COPY_DEVICE:
+        perform_copy_device_action(device, action);
+        break;
+
+    default:
+        throw Exception(ExceptionCode::InvalidArgument, "action.type was an invalid enum value on perform_action_on_device()");
+    }
+}
+
+void BlockDeviceMonitor::perform_drop_file_action(const BlockDevice &device, const RuleAction &action)
+{
+    RuleActionDropFile drop_file_action;
+    action.action().UnpackTo(&drop_file_action);
+}
+
+void BlockDeviceMonitor::perform_move_file_action(const BlockDevice &device, const RuleAction &action)
+{
+}
+
+void BlockDeviceMonitor::perform_delete_file_action(const BlockDevice &device, const RuleAction &action)
+{
+}
+
+void BlockDeviceMonitor::perform_copy_device_action(const BlockDevice &device, const RuleAction &action)
+{
 }
 
 std::unique_ptr<BlockDeviceMonitor> make_block_device_monitor(const uint32_t port)
