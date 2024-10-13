@@ -55,6 +55,16 @@ bool UDevEvent::is_block_device_event() const
     return get_subsystem() == SUBSYSTEM_BLOCK;
 }
 
+bool UDevEvent::is_add_event() const
+{
+    return get_action() == ADD_ACTION_LABEL;
+}
+
+bool UDevEvent::is_remove_event() const
+{
+    return get_action() == REMOVE_ACTION_LABEL;
+}
+
 std::string UDevEvent::get_action() const
 {
     return get_attribute(std::string(ATTRIBUTE_NAME_ACTION));

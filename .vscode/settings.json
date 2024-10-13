@@ -68,6 +68,8 @@
         "iomanip": "cpp",
         "set": "cpp",
         "unordered_set": "cpp",
-        "*.inc": "cpp"
+        "*.inc": "cpp",
+        "bitset": "cpp",
+        "regex": "cpp"
     }
 }

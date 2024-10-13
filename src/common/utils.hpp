@@ -6,6 +6,8 @@ using namespace std::filesystem;
 #include <string>
 #include "../exceptions.hpp"
 #include "unix.hpp"
+#include "../proto/rule.pb.h"
+#include "../block_device.hpp"
 
 #define EMPTY_CATCH_BEG \
     try                 \
@@ -66,4 +68,9 @@ namespace os
     }
 
     std::string read_text_file(const std::filesystem::path &path);
+};
+
+namespace rules
+{
+    bool is_rule_matching(const Rule &rule, const BlockDevice &device);
 };

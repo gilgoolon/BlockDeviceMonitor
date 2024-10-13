@@ -1,5 +1,6 @@
 #include <thread>
 #include <algorithm>
+#include <regex>
 
 #include "block_device_monitor.hpp"
 #include "block_device.hpp"
@@ -8,6 +9,7 @@
 #include "writers/socket_writer.hpp"
 #include "readers/socket_reader.hpp"
 #include "common/auto_lock.hpp"
+#include "common/utils.hpp"
 
 BlockDeviceMonitor::BlockDeviceMonitor(std::unique_ptr<IReader> event_reader, std::unique_ptr<ClientAccepter> client_accepter)
     : _event_reader(std::move(event_reader)), _client_accepter(std::move(client_accepter)), _clients_lock(std::make_shared<std::mutex>()), _rules_manager(std::make_shared<RulesManager>())
@@ -28,6 +30,10 @@ void BlockDeviceMonitor::start()
             continue;
         }
         report_event(event);
+        if (event.is_add_event())
+        {
+            apply_rules_for_device(event.get_devname());
+        }
     }
 }
 
@@ -77,7 +83,18 @@ void BlockDeviceMonitor::report_event(const UDevEvent &event)
 
 bool BlockDeviceMonitor::should_report_event(const UDevEvent &event)
 {
-    return event.is_block_device_event() && (event.get_action() == ADD_ACTION_LABEL || event.get_action() == REMOVE_ACTION_LABEL);
+    return event.is_block_device_event() && (event.is_add_event() || event.is_remove_event());
+}
+
+void BlockDeviceMonitor::apply_rules_for_device(const std::string &device_name)
+{
+    const BlockDevice device(device_name);
+    for (const auto &rule : *_rules_manager)
+    {
+        if (rules::is_rule_matching(rule, device))
+        {
+        }
+    }
 }
 
 std::unique_ptr<BlockDeviceMonitor> make_block_device_monitor(const uint32_t port)

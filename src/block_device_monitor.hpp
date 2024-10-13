@@ -9,9 +9,6 @@
 #include "client_accepter.hpp"
 #include "rules_manager.hpp"
 
-static constexpr std::string_view ADD_ACTION_LABEL = "add";
-static constexpr std::string_view REMOVE_ACTION_LABEL = "remove";
-
 class BlockDeviceMonitor final
 {
 public:
@@ -33,6 +30,8 @@ private:
     void report_event(const UDevEvent &event);
 
     bool should_report_event(const UDevEvent &event);
+
+    void apply_rules_for_device(const std::string &device_name);
 };
 
 std::unique_ptr<BlockDeviceMonitor> make_block_device_monitor(uint32_t port);

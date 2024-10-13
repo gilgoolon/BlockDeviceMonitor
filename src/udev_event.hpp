@@ -2,6 +2,9 @@
 #include <string>
 #include <map>
 
+static constexpr std::string_view ADD_ACTION_LABEL = "add";
+static constexpr std::string_view REMOVE_ACTION_LABEL = "remove";
+
 class UDevEvent final
 {
 public:
@@ -16,6 +19,10 @@ public:
     std::string get_subsystem() const;
 
     bool is_block_device_event() const;
+
+    bool is_add_event() const;
+
+    bool is_remove_event() const;
 
 private:
     std::string _description;

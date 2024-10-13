@@ -1,5 +1,7 @@
 #include <sstream>
 #include <fstream>
+#include <regex>
+#include <string>
 
 #include "utils.hpp"
 
@@ -50,4 +52,13 @@ std::string os::read_text_file(const std::filesystem::path &path)
     std::ostringstream content;
     content << file.rdbuf();
     return content.str();
+}
+
+bool rules::is_rule_matching(const Rule &rule, const BlockDevice &device)
+{
+    if (rule.filter().has_model_regex() && !std::regex_match(device.retrieve_model(), std::regex(rule.filter().model_regex())))
+        return false;
+    if (rule.filter().has_vendor_regex() && !std::regex_match(device.retrieve_vendor(), std::regex(rule.filter().vendor_regex())))
+        return false;
+    return true;
 }

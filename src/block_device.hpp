@@ -3,8 +3,6 @@
 
 #include "common/unix.hpp"
 
-static constexpr std::string_view DEFAULT_ATTRIBUTE_VALUE = "unknown";
-
 class BlockDevice final
 {
 public:
