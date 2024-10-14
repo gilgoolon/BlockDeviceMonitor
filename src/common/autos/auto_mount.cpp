@@ -4,7 +4,7 @@
 #include "auto_mount.hpp"
 #include "../os_utils.hpp"
 
-os::AutoMount::AutoMount(const std::filesystem::path &source, const std::filesystem::path &destination)
+autos::AutoMount::AutoMount(const std::filesystem::path &source, const std::filesystem::path &destination)
     : _source(source), _destination(destination)
 {
     const auto filesystem_type = detect_filesystem_type(source);
@@ -12,7 +12,7 @@ os::AutoMount::AutoMount(const std::filesystem::path &source, const std::filesys
     os::covered_call(::mount, _source.c_str(), _destination.c_str(), filesystem_type.c_str(), MOUNT_CREATE_NEW, FILESYSTEM_FLAGS_NO_FLAGS);
 }
 
-os::AutoMount::~AutoMount()
+autos::AutoMount::~AutoMount()
 {
     // umount2 instead of regular umount to force unmounting
     try
@@ -24,7 +24,7 @@ os::AutoMount::~AutoMount()
     }
 }
 
-std::string os::AutoMount::detect_filesystem_type(const std::filesystem::path &device_name)
+std::string autos::AutoMount::detect_filesystem_type(const std::filesystem::path &device_name)
 {
     blkid_probe pr = blkid_new_probe_from_filename(device_name.c_str());
     if (!pr)

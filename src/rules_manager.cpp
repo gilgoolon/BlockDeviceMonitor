@@ -8,13 +8,13 @@ RulesManager::RulesManager()
 
 void RulesManager::add_rule(const Rule &rule)
 {
-    AutoLock auto_lock(_mutex);
+    autos::AutoLock auto_lock(_mutex);
     _rules.push_back(rule);
 }
 
 void RulesManager::remove_rule(const uint32_t rule_index)
 {
-    AutoLock auto_lock(_mutex);
+    autos::AutoLock auto_lock(_mutex);
     _rules.erase(_rules.begin() + rule_index);
 }
 

@@ -1,12 +1,12 @@
 #include "auto_lock.hpp"
 
-AutoLock::AutoLock(std::shared_ptr<std::mutex> mutex)
+autos::AutoLock::AutoLock(std::shared_ptr<std::mutex> mutex)
     : _mutex(std::move(mutex))
 {
     _mutex->lock();
 }
 
-AutoLock::~AutoLock()
+autos::AutoLock::~AutoLock()
 {
     try
     {

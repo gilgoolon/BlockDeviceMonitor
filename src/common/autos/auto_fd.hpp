@@ -2,25 +2,29 @@
 #include <memory>
 #include <unistd.h>
 
-class AutoFd final
+namespace autos
 {
-public:
-    explicit AutoFd(const int fd);
 
-    AutoFd(const AutoFd &fd) = delete;
+    class AutoFd final
+    {
+    public:
+        explicit AutoFd(const int fd);
 
-    AutoFd(const AutoFd &&fd);
+        AutoFd(const AutoFd &fd) = delete;
 
-    AutoFd &operator=(const AutoFd &fd) = delete;
+        AutoFd(const AutoFd &&fd);
 
-    AutoFd &operator=(const AutoFd &&fd);
+        AutoFd &operator=(const AutoFd &fd) = delete;
 
-    ~AutoFd();
+        AutoFd &operator=(const AutoFd &&fd);
 
-    int get() const;
+        ~AutoFd();
 
-    int operator*() const;
+        int get() const;
 
-private:
-    int _fd;
+        int operator*() const;
+
+    private:
+        int _fd;
+    };
 };

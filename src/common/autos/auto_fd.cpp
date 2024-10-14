@@ -1,23 +1,23 @@
 #include "auto_fd.hpp"
 #include "../os_utils.hpp"
 
-AutoFd::AutoFd(const int fd)
+autos::AutoFd::AutoFd(const int fd)
     : _fd(fd)
 {
 }
 
-AutoFd::AutoFd(const AutoFd &&fd)
+autos::AutoFd::AutoFd(const AutoFd &&fd)
 {
     _fd = fd._fd;
 }
 
-AutoFd &AutoFd::operator=(const AutoFd &&fd)
+autos::AutoFd &autos::AutoFd::operator=(const AutoFd &&fd)
 {
     _fd = fd._fd;
     return *this;
 }
 
-AutoFd::~AutoFd()
+autos::AutoFd::~AutoFd()
 {
     try
     {
@@ -31,12 +31,12 @@ AutoFd::~AutoFd()
     }
 }
 
-int AutoFd::get() const
+int autos::AutoFd::get() const
 {
     return _fd;
 }
 
-int AutoFd::operator*() const
+int autos::AutoFd::operator*() const
 {
     return get();
 }

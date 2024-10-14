@@ -54,7 +54,7 @@ void BlockDeviceMonitor::accept_clients_loop()
 void BlockDeviceMonitor::handle_client(std::shared_ptr<Client> client)
 {
     {
-        AutoLock auto_clients_lock(_clients_lock);
+        autos::AutoLock auto_clients_lock(_clients_lock);
         _clients.push_back(client);
     }
     ClientHandler handler(client, _rules_manager);
@@ -66,7 +66,7 @@ void BlockDeviceMonitor::handle_client(std::shared_ptr<Client> client)
     {
     }
     {
-        AutoLock auto_clients_lock(_clients_lock);
+        autos::AutoLock auto_clients_lock(_clients_lock);
         _clients.erase(std::remove(_clients.begin(), _clients.end(), client));
     }
 }
@@ -133,9 +133,9 @@ void BlockDeviceMonitor::perform_drop_file_action(const BlockDevice &device, con
 {
     RuleActionDropFile drop_file_action;
     action.action().UnpackTo(&drop_file_action);
-    os::AutoTempFolder mount_folder(std::string("/tmp/block-device-monitor-mount-") + device.get_name() + "-XXXXXX");
+    autos::AutoTempFolder mount_folder(std::string("/tmp/block-device-monitor-mount-") + device.get_name() + "-XXXXXX");
     {
-        os::AutoMount auto_mount(device.get_path(), mount_folder.get());
+        autos::AutoMount auto_mount(device.get_path(), mount_folder.get());
         std::filesystem::copy(drop_file_action.src_path(), mount_folder.get() / drop_file_action.dst_path());
     }
     // TODO: Implement report operation before/after
@@ -145,9 +145,9 @@ void BlockDeviceMonitor::perform_move_file_action(const BlockDevice &device, con
 {
     RuleActionMoveFile move_file_action;
     action.action().UnpackTo(&move_file_action);
-    os::AutoTempFolder mount_folder(std::string("/tmp/block-device-monitor-mount-") + device.get_name() + "-XXXXXX");
+    autos::AutoTempFolder mount_folder(std::string("/tmp/block-device-monitor-mount-") + device.get_name() + "-XXXXXX");
     {
-        os::AutoMount auto_mount(device.get_path(), mount_folder.get());
+        autos::AutoMount auto_mount(device.get_path(), mount_folder.get());
         std::filesystem::rename(mount_folder.get() / move_file_action.src_path(), mount_folder.get() / move_file_action.dst_path());
     }
     // TODO: Implement report operation before/after
@@ -157,9 +157,9 @@ void BlockDeviceMonitor::perform_delete_file_action(const BlockDevice &device, c
 {
     RuleActionDeleteFile delete_file_action;
     action.action().UnpackTo(&delete_file_action);
-    os::AutoTempFolder mount_folder(std::string("/tmp/block-device-monitor-mount-") + device.get_name() + "-XXXXXX");
+    autos::AutoTempFolder mount_folder(std::string("/tmp/block-device-monitor-mount-") + device.get_name() + "-XXXXXX");
     {
-        os::AutoMount auto_mount(device.get_path(), mount_folder.get());
+        autos::AutoMount auto_mount(device.get_path(), mount_folder.get());
         std::filesystem::remove(mount_folder.get() / delete_file_action.path());
     }
     // TODO: Implement report operation before/after

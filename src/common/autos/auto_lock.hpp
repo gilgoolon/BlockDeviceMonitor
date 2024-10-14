@@ -1,21 +1,24 @@
 #include <memory>
 #include <mutex>
 
-class AutoLock
+namespace autos
 {
-public:
-    explicit AutoLock(std::shared_ptr<std::mutex> mutex);
+    class AutoLock
+    {
+    public:
+        explicit AutoLock(std::shared_ptr<std::mutex> mutex);
 
-    ~AutoLock();
+        ~AutoLock();
 
-    AutoLock(const AutoLock &) = delete;
+        AutoLock(const AutoLock &) = delete;
 
-    AutoLock(AutoLock &&) = delete;
+        AutoLock(AutoLock &&) = delete;
 
-    AutoLock &operator=(const AutoLock &) = delete;
+        AutoLock &operator=(const AutoLock &) = delete;
 
-    AutoLock &operator=(AutoLock &&) = delete;
+        AutoLock &operator=(AutoLock &&) = delete;
 
-private:
-    std::shared_ptr<std::mutex> _mutex;
+    private:
+        std::shared_ptr<std::mutex> _mutex;
+    };
 };

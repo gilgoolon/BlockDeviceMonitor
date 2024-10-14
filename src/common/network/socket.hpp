@@ -17,7 +17,7 @@ public:
     void shutdown() const;
 
 private:
-    const AutoFd _socket_fd;
+    const autos::AutoFd _socket_fd;
 };
 
 std::shared_ptr<Socket> accept_client(const uint32_t port);
