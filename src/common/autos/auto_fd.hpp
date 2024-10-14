@@ -2,8 +2,6 @@
 #include <memory>
 #include <unistd.h>
 
-#include "unix.hpp"
-
 class AutoFd final
 {
 public:

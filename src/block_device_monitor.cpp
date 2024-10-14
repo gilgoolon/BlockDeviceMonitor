@@ -8,9 +8,9 @@
 #include "netlink.hpp"
 #include "common/writers/socket_writer.hpp"
 #include "common/readers/socket_reader.hpp"
-#include "common/auto_lock.hpp"
-#include "common/auto_mount.hpp"
-#include "common/temp_folder.hpp"
+#include "common/autos/auto_lock.hpp"
+#include "common/autos/auto_mount.hpp"
+#include "common/autos/temp_folder.hpp"
 #include "common/os_utils.hpp"
 #include "rules_utils.hpp"
 

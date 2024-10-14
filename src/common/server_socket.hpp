@@ -3,7 +3,7 @@
 #include <memory>
 
 #include "socket.hpp"
-#include "auto_fd.hpp"
+#include "autos/auto_fd.hpp"
 
 class ServerSocket final
 {
@@ -15,7 +15,7 @@ public:
     std::shared_ptr<Socket> accept() const;
 
     void shutdown() const;
-    
+
 private:
     const AutoFd _socket_fd;
 

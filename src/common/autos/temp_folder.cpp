@@ -1,8 +1,5 @@
-#include <filesystem>
-using namespace std::filesystem;
-
 #include "temp_folder.hpp"
-#include "os_utils.hpp"
+#include "../os_utils.hpp"
 
 os::TempFolder::TempFolder(const std::string &template_name)
     : _path(template_name)

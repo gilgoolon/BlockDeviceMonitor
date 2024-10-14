@@ -1,6 +1,8 @@
 #pragma once
 #include <stdlib.h>
 #include <string>
+#include <filesystem>
+using namespace std::filesystem;
 
 namespace os
 {

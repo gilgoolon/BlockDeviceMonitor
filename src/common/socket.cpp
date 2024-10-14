@@ -6,6 +6,7 @@
 #include "server_socket.hpp"
 #include "socket.hpp"
 #include "os_utils.hpp"
+#include "unix.hpp"
 
 Socket::Socket(const int socket_fd)
     : _socket_fd(socket_fd)

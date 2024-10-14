@@ -6,7 +6,7 @@
 #include "block_device.hpp"
 #include "common/os_utils.hpp"
 #include "common/string_utils.hpp"
-#include "common/auto_fd.hpp"
+#include "common/autos/auto_fd.hpp"
 #include "partition_table.hpp"
 #include "common/unix.hpp"
 
