@@ -21,7 +21,7 @@ void Socket::send(const Buffer &data) const
 Buffer Socket::receive() const
 {
     Buffer buffer;
-    const size_t buff_size = DEFAULT_BUFF_SIZE;
+    const size_t buff_size = buffer::DEFAULT_BUFF_SIZE;
     ssize_t read_bytes = 0;
     do
     {
@@ -33,7 +33,7 @@ Buffer Socket::receive() const
             throw Exception(ExceptionCode::DisconnectedException, "client closed the connection");
         }
         buffer.resize(old_size + read_bytes);
-    } while (read_bytes >= DEFAULT_BUFF_SIZE);
+    } while (read_bytes >= buffer::DEFAULT_BUFF_SIZE);
     return buffer;
 }
 

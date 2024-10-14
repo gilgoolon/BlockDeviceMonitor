@@ -28,7 +28,7 @@ void BlockDeviceMonitor::start()
     while (true)
     {
         auto buffer = _event_reader->read();
-        const UDevEvent event(to_string(buffer));
+        const UDevEvent event(buffer::to_string(buffer));
         if (!should_report_event(event))
         {
             continue;

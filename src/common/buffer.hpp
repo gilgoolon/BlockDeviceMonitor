@@ -3,11 +3,16 @@
 #include <cstdint>
 #include <string>
 
-using Byte = uint8_t;
-using Buffer = std::vector<Byte>;
+namespace buffer
+{
 
-constexpr size_t DEFAULT_BUFF_SIZE = 4096;
+    using Byte = uint8_t;
+    using Buffer = std::vector<Byte>;
 
-std::string to_string(const Buffer &buffer);
+    constexpr size_t DEFAULT_BUFF_SIZE = 4096;
 
-Buffer to_buffer(const std::string &str);
+    std::string to_string(const Buffer &buffer);
+
+    Buffer to_buffer(const std::string &str);
+
+};

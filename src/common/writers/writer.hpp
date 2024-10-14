@@ -8,5 +8,5 @@ class IWriter
 public:
     virtual ~IWriter() = default;
 
-    virtual void write(const Buffer &data) = 0;
+    virtual void write(const buffer::Buffer &data) = 0;
 };

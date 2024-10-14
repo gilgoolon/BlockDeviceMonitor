@@ -8,13 +8,13 @@ Client::Client(std::shared_ptr<IWriter> client_writer, std::shared_ptr<IReader> 
 void Client::send(const ServerMessage &message)
 {
     const auto serialized = message.SerializeAsString();
-    _client_writer->write(to_buffer(serialized));
+    _client_writer->write(buffer::to_buffer(serialized));
 }
 
 ClientMessage Client::receive()
 {
     const auto data = _client_reader->read();
     ClientMessage message;
-    message.ParseFromString(to_string(data));
+    message.ParseFromString(buffer::to_string(data));
     return message;
 }
