@@ -2,8 +2,8 @@
 #include <string>
 
 #include "partition_table.hpp"
-#include "common/string_utils.hpp"
-#include "common/os_utils.hpp"
+#include "../common/string_utils.hpp"
+#include "../common/os_utils.hpp"
 
 std::vector<PartitionTableEntry> get_partition_table()
 {

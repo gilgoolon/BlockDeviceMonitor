@@ -1,5 +1,5 @@
 #include "../proto/rule.pb.h"
-#include "../block_device.hpp"
+#include "../block_device/block_device.hpp"
 
 namespace rules
 {

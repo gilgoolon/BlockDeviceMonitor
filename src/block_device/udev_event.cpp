@@ -2,8 +2,8 @@
 #include <iostream>
 
 #include "udev_event.hpp"
-#include "common/string_utils.hpp"
-#include "exceptions.hpp"
+#include "../common/string_utils.hpp"
+#include "../exceptions.hpp"
 
 static constexpr char ATTRIBUTE_NAME_VALUE_SEPARATOR = '=';
 static constexpr size_t EXPECTED_TOKENS_EVENT_ATTRIBUTE = 2;

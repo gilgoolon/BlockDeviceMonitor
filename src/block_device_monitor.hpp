@@ -5,13 +5,13 @@ using namespace std::filesystem;
 
 #include "common/writers/writer.hpp"
 #include "common/readers/reader.hpp"
-#include "udev_event.hpp"
+#include "block_device/udev_event.hpp"
+#include "block_device/block_device.hpp"
 #include "client/client.hpp"
 #include "client/client_handler.hpp"
 #include "client/client_accepter.hpp"
 #include "client/rules_manager.hpp"
 #include "proto/rule.pb.h"
-#include "block_device.hpp"
 
 const static std::filesystem::path RESULTS_FOLDER = "results";
 const static std::filesystem::path DUMPS_FOLDER = RESULTS_FOLDER / "dumps";

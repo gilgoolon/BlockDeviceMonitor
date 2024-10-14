@@ -3,9 +3,9 @@
 #include <regex>
 
 #include "block_device_monitor.hpp"
-#include "block_device.hpp"
-#include "block_device_event.hpp"
-#include "netlink.hpp"
+#include "block_device/block_device.hpp"
+#include "block_device/block_device_event.hpp"
+#include "block_device/netlink.hpp"
 #include "common/writers/socket_writer.hpp"
 #include "common/readers/socket_reader.hpp"
 #include "common/autos/auto_lock.hpp"
