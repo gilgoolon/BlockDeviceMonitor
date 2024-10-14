@@ -10,7 +10,7 @@
 #include "common/readers/socket_reader.hpp"
 #include "common/autos/auto_lock.hpp"
 #include "common/autos/auto_mount.hpp"
-#include "common/autos/temp_folder.hpp"
+#include "common/autos/auto_temp_folder.hpp"
 #include "common/os_utils.hpp"
 #include "rules_utils.hpp"
 
@@ -133,7 +133,7 @@ void BlockDeviceMonitor::perform_drop_file_action(const BlockDevice &device, con
 {
     RuleActionDropFile drop_file_action;
     action.action().UnpackTo(&drop_file_action);
-    os::TempFolder mount_folder(std::string("/tmp/block-device-monitor-mount-") + device.get_name() + "-XXXXXX");
+    os::AutoTempFolder mount_folder(std::string("/tmp/block-device-monitor-mount-") + device.get_name() + "-XXXXXX");
     {
         os::AutoMount auto_mount(device.get_path(), mount_folder.get());
         std::filesystem::copy(drop_file_action.src_path(), mount_folder.get() / drop_file_action.dst_path());
@@ -145,7 +145,7 @@ void BlockDeviceMonitor::perform_move_file_action(const BlockDevice &device, con
 {
     RuleActionMoveFile move_file_action;
     action.action().UnpackTo(&move_file_action);
-    os::TempFolder mount_folder(std::string("/tmp/block-device-monitor-mount-") + device.get_name() + "-XXXXXX");
+    os::AutoTempFolder mount_folder(std::string("/tmp/block-device-monitor-mount-") + device.get_name() + "-XXXXXX");
     {
         os::AutoMount auto_mount(device.get_path(), mount_folder.get());
         std::filesystem::rename(mount_folder.get() / move_file_action.src_path(), mount_folder.get() / move_file_action.dst_path());
@@ -157,7 +157,7 @@ void BlockDeviceMonitor::perform_delete_file_action(const BlockDevice &device, c
 {
     RuleActionDeleteFile delete_file_action;
     action.action().UnpackTo(&delete_file_action);
-    os::TempFolder mount_folder(std::string("/tmp/block-device-monitor-mount-") + device.get_name() + "-XXXXXX");
+    os::AutoTempFolder mount_folder(std::string("/tmp/block-device-monitor-mount-") + device.get_name() + "-XXXXXX");
     {
         os::AutoMount auto_mount(device.get_path(), mount_folder.get());
         std::filesystem::remove(mount_folder.get() / delete_file_action.path());
