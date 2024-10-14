@@ -26,6 +26,7 @@ autos::AutoMount::~AutoMount()
 
 std::string autos::AutoMount::detect_filesystem_type(const std::filesystem::path &device_name)
 {
+    // TODO: Make this function more secure - this is a version of ChatGPT generated code
     blkid_probe pr = blkid_new_probe_from_filename(device_name.c_str());
     if (!pr)
     {
