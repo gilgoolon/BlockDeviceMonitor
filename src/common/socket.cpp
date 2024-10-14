@@ -15,7 +15,7 @@ Socket::Socket(const int socket_fd)
 
 void Socket::send(const Buffer &data) const
 {
-    os::covered_call(::send, *_socket_fd, data.data(), data.size(), flags::DEFAULT_NO_FLAGS);
+    os::covered_call(::send, get_socket_fd(), data.data(), data.size(), flags::DEFAULT_NO_FLAGS);
 }
 
 Buffer Socket::receive() const
@@ -27,7 +27,7 @@ Buffer Socket::receive() const
     {
         const size_t old_size = buffer.size();
         buffer.resize(old_size + buff_size);
-        read_bytes = os::covered_call(recv, *_socket_fd, buffer.data() + old_size, buff_size, flags::DEFAULT_NO_FLAGS);
+        read_bytes = os::covered_call(recv, get_socket_fd(), buffer.data() + old_size, buff_size, flags::DEFAULT_NO_FLAGS);
         if (!read_bytes)
         {
             throw Exception(ExceptionCode::DisconnectedException, "client closed the connection");
@@ -40,6 +40,11 @@ Buffer Socket::receive() const
 uint32_t Socket::get_socket_fd() const
 {
     return *_socket_fd;
+}
+
+void Socket::shutdown() const
+{
+    os::covered_call(::shutdown, get_socket_fd(), SHUT_RDWR);
 }
 
 std::shared_ptr<Socket> accept_client(const uint32_t port)

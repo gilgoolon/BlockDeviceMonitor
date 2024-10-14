@@ -9,11 +9,11 @@ public:
 
     void send(const Buffer &data) const;
 
-    void send(const std::string &data) const;
-
     Buffer receive() const;
 
     uint32_t get_socket_fd() const;
+
+    void shutdown() const;
 
 private:
     const AutoFd _socket_fd;
