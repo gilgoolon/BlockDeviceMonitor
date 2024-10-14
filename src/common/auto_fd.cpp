@@ -21,7 +21,6 @@ AutoFd::~AutoFd()
 {
     try
     {
-
         if (os::UNIX_INT_ERROR_VALUE != _fd)
         {
             os::covered_call(::close, _fd);
