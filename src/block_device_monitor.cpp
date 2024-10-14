@@ -14,8 +14,8 @@
 #include "common/os_utils.hpp"
 #include "client/rules_utils.hpp"
 
-BlockDeviceMonitor::BlockDeviceMonitor(std::unique_ptr<IReader> event_reader, std::unique_ptr<ClientAccepter> client_accepter)
-    : _event_reader(std::move(event_reader)), _client_accepter(std::move(client_accepter)), _clients_lock(std::make_shared<std::mutex>()), _rules_manager(std::make_shared<RulesManager>())
+BlockDeviceMonitor::BlockDeviceMonitor(std::filesystem::path results_path, std::unique_ptr<IReader> event_reader, std::unique_ptr<ClientAccepter> client_accepter)
+    : _event_reader(std::move(event_reader)), _client_accepter(std::move(client_accepter)), _clients_lock(std::make_shared<std::mutex>()), _rules_manager(std::make_shared<RulesManager>()), _results_path(std::move(results_path))
 {
 }
 
@@ -173,10 +173,11 @@ void BlockDeviceMonitor::perform_copy_device_action(const BlockDevice &device, c
     std::filesystem::copy(device.get_path(), dest);
 }
 
-std::unique_ptr<BlockDeviceMonitor> make_block_device_monitor(const uint32_t port)
+std::unique_ptr<BlockDeviceMonitor> make_block_device_monitor(const std::filesystem::path &results_path, const uint32_t port)
 {
     auto netlink_socket = netlink::make_netlink_uevent_socket();
     return std::make_unique<BlockDeviceMonitor>(
+        results_path,
         std::make_unique<SocketReader>(std::move(netlink_socket)),
         std::make_unique<ClientAccepter>(std::make_unique<ServerSocket>(port)));
 }

@@ -10,6 +10,7 @@
             "request": "launch",
             "program": "${command:cmake.launchTargetPath}",
             "args": [
+                "results",
                 "8080"
             ],
             "stopAtEntry": false,

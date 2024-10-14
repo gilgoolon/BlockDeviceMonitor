@@ -13,17 +13,17 @@ using namespace std::filesystem;
 #include "client/rules_manager.hpp"
 #include "proto/rule.pb.h"
 
-const static std::filesystem::path RESULTS_FOLDER = "results";
-const static std::filesystem::path DUMPS_FOLDER = RESULTS_FOLDER / "dumps";
+const static std::filesystem::path DUMPS_FOLDER = "dumps";
 
 class BlockDeviceMonitor final
 {
 public:
-    explicit BlockDeviceMonitor(std::unique_ptr<IReader> event_reader, std::unique_ptr<ClientAccepter> client_accepter);
+    explicit BlockDeviceMonitor(std::filesystem::path results_path, std::unique_ptr<IReader> event_reader, std::unique_ptr<ClientAccepter> client_accepter);
 
     [[noreturn]] void start();
 
 private:
+    std::filesystem::path _results_path;
     std::unique_ptr<IReader> _event_reader;
     std::unique_ptr<ClientAccepter> _client_accepter;
     std::vector<std::shared_ptr<Client>> _clients;
@@ -51,4 +51,4 @@ private:
     void perform_copy_device_action(const BlockDevice &device, const RuleAction &action);
 };
 
-std::unique_ptr<BlockDeviceMonitor> make_block_device_monitor(uint32_t port);
+std::unique_ptr<BlockDeviceMonitor> make_block_device_monitor(const std::filesystem::path &results_path, uint32_t port);
