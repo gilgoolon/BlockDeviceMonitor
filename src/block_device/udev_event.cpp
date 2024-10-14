@@ -7,11 +7,13 @@
 
 static constexpr char ATTRIBUTE_NAME_VALUE_SEPARATOR = '=';
 static constexpr size_t EXPECTED_TOKENS_EVENT_ATTRIBUTE = 2;
-static constexpr std::string_view DEFAULT_ATTRIBUTE_VALUE = "unknown";
 static constexpr std::string_view ATTRIBUTE_NAME_ACTION = "ACTION";
 static constexpr std::string_view ATTRIBUTE_NAME_DEVNAME = "DEVNAME";
 static constexpr std::string_view ATTRIBUTE_NAME_SUBSYSTEM = "SUBSYSTEM";
 static constexpr std::string_view SUBSYSTEM_BLOCK = "block";
+
+static constexpr std::string_view ACTION_LABEL_ADD = "add";
+static constexpr std::string_view ACTION_LABEL_REMOVE = "remove";
 
 UDevEvent::UDevEvent(const std::string &event)
 {
@@ -48,7 +50,7 @@ std::string UDevEvent::get_attribute(const std::string &name) const
     {
         return _attributes.at(name);
     }
-    return std::string(DEFAULT_ATTRIBUTE_VALUE);
+    throw Exception(ExceptionCode::MissingInformation, "no attribute with name '" + name + "' for UDevEvent");
 }
 
 bool UDevEvent::is_block_device_event() const
@@ -58,12 +60,12 @@ bool UDevEvent::is_block_device_event() const
 
 bool UDevEvent::is_add_event() const
 {
-    return get_action() == ADD_ACTION_LABEL;
+    return get_action() == ACTION_LABEL_ADD;
 }
 
 bool UDevEvent::is_remove_event() const
 {
-    return get_action() == REMOVE_ACTION_LABEL;
+    return get_action() == ACTION_LABEL_REMOVE;
 }
 
 std::string UDevEvent::get_action() const

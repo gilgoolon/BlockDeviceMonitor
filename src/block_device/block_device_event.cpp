@@ -13,15 +13,19 @@ BlockDeviceEventAction to_block_device_event_action(const std::string &action)
     }
     else
     {
-        throw Exception(ExceptionCode::InvalidArgument, "Unmapped action value '" + action + "' in to_action(string)");
+        throw Exception(ExceptionCode::InvalidArgument, "unmapped action value '" + action + "' in to_action(string)");
     }
 }
 
 BlockDeviceEvent make_block_device_event(const BlockDevice &block_device, const UDevEvent &udev_event)
 {
     BlockDeviceEvent event;
+    EMPTY_CATCH_BEG
     event.set_action(to_block_device_event_action(udev_event.get_action()));
+    EMPTY_CATCH_END(ExceptionCode::MissingInformation)
+    EMPTY_CATCH_BEG
     event.set_devname(udev_event.get_devname());
+    EMPTY_CATCH_END(ExceptionCode::MissingInformation)
     EMPTY_CATCH_BEG
     event.set_vendor(block_device.retrieve_vendor());
     EMPTY_CATCH_END(ExceptionCode::MissingInformation)

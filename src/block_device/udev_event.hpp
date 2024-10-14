@@ -2,9 +2,6 @@
 #include <string>
 #include <map>
 
-static constexpr std::string_view ADD_ACTION_LABEL = "add";
-static constexpr std::string_view REMOVE_ACTION_LABEL = "remove";
-
 class UDevEvent final
 {
 public:
