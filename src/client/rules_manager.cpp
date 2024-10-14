@@ -1,5 +1,5 @@
 #include "rules_manager.hpp"
-#include "common/autos/auto_lock.hpp"
+#include "../common/autos/auto_lock.hpp"
 
 RulesManager::RulesManager()
     : _mutex(std::make_shared<std::mutex>())

@@ -1,10 +1,10 @@
 #pragma once
 #include <memory>
 
-#include "common/writers/writer.hpp"
-#include "common/readers/reader.hpp"
-#include "proto/server_message.pb.h"
-#include "proto/client_message.pb.h"
+#include "../common/writers/writer.hpp"
+#include "../common/readers/reader.hpp"
+#include "../proto/server_message.pb.h"
+#include "../proto/client_message.pb.h"
 
 class Client final
 {

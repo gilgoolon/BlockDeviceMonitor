@@ -1,7 +1,6 @@
-#include "proto/server_message.pb.h"
-
 #include "client_handler.hpp"
-#include "common/autos/auto_lock.hpp"
+#include "../proto/server_message.pb.h"
+#include "../common/autos/auto_lock.hpp"
 
 ClientHandler::ClientHandler(std::shared_ptr<Client> client, std::shared_ptr<RulesManager> rules_manager)
     : _client(std::move(client)), _rules_manager(std::move(rules_manager))

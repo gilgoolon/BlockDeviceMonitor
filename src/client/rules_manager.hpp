@@ -3,7 +3,7 @@
 #include <memory>
 #include <vector>
 
-#include "proto/rule.pb.h"
+#include "../proto/rule.pb.h"
 
 class RulesManager final
 {
