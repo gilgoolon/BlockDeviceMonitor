@@ -1,6 +1,6 @@
 #pragma once
-#include "buffer.hpp"
-#include "autos/auto_fd.hpp"
+#include "../buffer.hpp"
+#include "../autos/auto_fd.hpp"
 
 class Socket final
 {

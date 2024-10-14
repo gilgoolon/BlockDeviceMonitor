@@ -3,8 +3,8 @@
 #include <unistd.h>
 
 #include "server_socket.hpp"
-#include "os_utils.hpp"
-#include "unix.hpp"
+#include "../os_utils.hpp"
+#include "../unix.hpp"
 
 ServerSocket::ServerSocket(const uint32_t port) : _socket_fd(
                                                       os::covered_call(::socket, AF_INET,

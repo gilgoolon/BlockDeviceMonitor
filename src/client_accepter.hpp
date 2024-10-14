@@ -1,4 +1,4 @@
-#include "common/server_socket.hpp"
+#include "common/network/server_socket.hpp"
 #include "client.hpp"
 
 static constexpr size_t DEFAULT_MAX_CONCURRENT_CLIENTS = 10;
