@@ -4,6 +4,20 @@
 #include <cstring>
 #include <cerrno>
 #include <sstream>
+
+#define EMPTY_CATCH_BEG \
+    try                 \
+    {
+#define EMPTY_CATCH_END(exception_code)  \
+    }                                    \
+    catch (const Exception &ex)          \
+    {                                    \
+        if (ex.code() != exception_code) \
+        {                                \
+            throw ex;                    \
+        }                                \
+    }
+
 #define DEFINE_EXCEPTION_CODES       \
     ENUM_CODE(ErrnoException)        \
     ENUM_CODE(InvalidArgument)       \

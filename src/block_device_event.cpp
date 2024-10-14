@@ -1,6 +1,5 @@
 #include "block_device_event.hpp"
 #include "exceptions.hpp"
-#include "common/utils.hpp"
 
 BlockDeviceEventAction to_block_device_event_action(const std::string &action)
 {

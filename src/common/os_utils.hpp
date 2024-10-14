@@ -1,37 +1,10 @@
 #pragma once
+
+#include <string>
 #include <filesystem>
 using namespace std::filesystem;
 
-#include <vector>
-#include <string>
 #include "../exceptions.hpp"
-#include "unix.hpp"
-#include "../proto/rule.pb.h"
-#include "../block_device.hpp"
-
-#define EMPTY_CATCH_BEG \
-    try                 \
-    {
-#define EMPTY_CATCH_END(exception_code)  \
-    }                                    \
-    catch (const Exception &ex)          \
-    {                                    \
-        if (ex.code() != exception_code) \
-        {                                \
-            throw ex;                    \
-        }                                \
-    }
-
-namespace strings
-{
-    std::vector<std::string> split(const std::string &string, char token, size_t max);
-
-    std::string strip(const std::string &str, char token);
-
-    std::string to_string(char c);
-
-    bool starts_with(const std::string &str, const std::string &prefix);
-};
 
 namespace os
 {
@@ -72,9 +45,4 @@ namespace os
     std::string current_unix_timestamp_str();
 
     void makedirs(const std::filesystem::path &path);
-};
-
-namespace rules
-{
-    bool is_rule_matching(const RuleFilter &rule, const BlockDevice &device);
 };

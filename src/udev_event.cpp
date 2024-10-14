@@ -2,7 +2,8 @@
 #include <iostream>
 
 #include "udev_event.hpp"
-#include "common/utils.hpp"
+#include "common/string_utils.hpp"
+#include "exceptions.hpp"
 
 static constexpr char ATTRIBUTE_NAME_VALUE_SEPARATOR = '=';
 static constexpr size_t EXPECTED_TOKENS_EVENT_ATTRIBUTE = 2;
@@ -33,7 +34,7 @@ void UDevEvent::parse_event(const std::string &event)
         const auto tokens = strings::split(current, ATTRIBUTE_NAME_VALUE_SEPARATOR, 1); // only split by a single separator
         if (tokens.size() == 1)                                                         // no separators found
         {
-            throw std::invalid_argument("Expected " + strings::to_string(ATTRIBUTE_NAME_VALUE_SEPARATOR) + " tokens when splitting event line by '=' token. Line: '" + current + "'.");
+            throw Exception(ExceptionCode::InvalidArgument, "Expected " + strings::to_string(ATTRIBUTE_NAME_VALUE_SEPARATOR) + " tokens when splitting event line by '=' token. Line: '" + current + "'.");
         }
         const auto attribute_name = tokens.front();
         const auto attribute_value = tokens.back();

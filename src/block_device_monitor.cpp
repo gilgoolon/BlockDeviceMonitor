@@ -9,9 +9,10 @@
 #include "writers/socket_writer.hpp"
 #include "readers/socket_reader.hpp"
 #include "common/auto_lock.hpp"
-#include "common/utils.hpp"
 #include "common/auto_mount.hpp"
 #include "common/temp_folder.hpp"
+#include "common/os_utils.hpp"
+#include "rules_utils.hpp"
 
 BlockDeviceMonitor::BlockDeviceMonitor(std::unique_ptr<IReader> event_reader, std::unique_ptr<ClientAccepter> client_accepter)
     : _event_reader(std::move(event_reader)), _client_accepter(std::move(client_accepter)), _clients_lock(std::make_shared<std::mutex>()), _rules_manager(std::make_shared<RulesManager>())

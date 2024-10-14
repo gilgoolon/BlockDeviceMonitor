@@ -2,7 +2,7 @@
 #include <blkid/blkid.h>
 
 #include "auto_mount.hpp"
-#include "utils.hpp"
+#include "os_utils.hpp"
 
 os::AutoMount::AutoMount(const std::filesystem::path &source, const std::filesystem::path &destination)
     : _source(source), _destination(destination)

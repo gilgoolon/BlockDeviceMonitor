@@ -4,7 +4,7 @@
 
 #include "../exceptions.hpp"
 #include "server_socket.hpp"
-#include "utils.hpp"
+#include "os_utils.hpp"
 
 ServerSocket::ServerSocket(const uint32_t port) : _socket_fd(
                                                       os::covered_call(::socket, AF_INET,

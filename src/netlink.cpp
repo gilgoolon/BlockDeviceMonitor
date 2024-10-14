@@ -2,7 +2,7 @@
 #include <linux/netlink.h>
 
 #include "netlink.hpp"
-#include "common/utils.hpp"
+#include "common/os_utils.hpp"
 
 static constexpr size_t NETLINK_BROADCAST = 1;
 

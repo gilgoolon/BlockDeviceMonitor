@@ -4,11 +4,11 @@
 #include <algorithm>
 
 #include "block_device.hpp"
-#include "common/utils.hpp"
+#include "common/os_utils.hpp"
+#include "common/string_utils.hpp"
 #include "common/auto_fd.hpp"
 #include "partition_table.hpp"
 #include "common/unix.hpp"
-#include <iostream>
 
 BlockDevice::BlockDevice(std::string device_name) : _device_name(std::move(device_name)) {}
 
