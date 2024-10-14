@@ -2,10 +2,10 @@
 #include "../common/writers/socket_writer.hpp"
 #include "../common/readers/socket_reader.hpp"
 
-ClientAccepter::ClientAccepter(std::unique_ptr<ServerSocket> server_socket)
+ClientAccepter::ClientAccepter(std::unique_ptr<ServerSocket> server_socket, const size_t max_backlog)
     : _server_socket(std::move(server_socket))
 {
-    _server_socket->listen(DEFAULT_MAX_CONCURRENT_CLIENTS);
+    _server_socket->listen(max_backlog);
 }
 
 std::shared_ptr<Client> ClientAccepter::accept()

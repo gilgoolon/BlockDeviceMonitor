@@ -2,9 +2,7 @@
 #include <string>
 #include <vector>
 
-constexpr std::string_view PARTITION_TABLE_PATH = "/proc/partitions";
-
-struct PartitionTableEntry
+struct PartitionTableEntry final
 {
     size_t major;
     size_t minor;

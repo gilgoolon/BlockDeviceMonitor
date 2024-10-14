@@ -5,6 +5,8 @@
 #include "../common/string_utils.hpp"
 #include "../common/os_utils.hpp"
 
+static constexpr std::string_view PARTITION_TABLE_PATH = "/proc/partitions";
+
 std::vector<PartitionTableEntry> get_partition_table()
 {
     const auto partition_table_data = os::read_text_file(PARTITION_TABLE_PATH);

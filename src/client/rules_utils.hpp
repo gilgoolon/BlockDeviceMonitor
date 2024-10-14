@@ -1,3 +1,4 @@
+#pragma once
 #include "../proto/rule.pb.h"
 #include "../block_device/block_device.hpp"
 

@@ -4,6 +4,8 @@
 
 namespace strings
 {
+    constexpr size_t SPLIT_ONCE = 1;
+
     std::vector<std::string> split(const std::string &string, char token, size_t max);
 
     std::string strip(const std::string &str, char token);
