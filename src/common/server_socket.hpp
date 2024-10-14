@@ -14,6 +14,8 @@ public:
 
     std::shared_ptr<Socket> accept() const;
 
+    void shutdown() const;
+    
 private:
     const AutoFd _socket_fd;
 

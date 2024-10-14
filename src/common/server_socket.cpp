@@ -26,6 +26,11 @@ std::shared_ptr<Socket> ServerSocket::accept() const
                          flags::OPTIONAL_NO_OUTPUT, flags::OPTIONAL_NO_OUTPUT));
 }
 
+void ServerSocket::shutdown() const
+{
+    os::covered_call(::shutdown, *_socket_fd, SHUT_RDWR);
+}
+
 void ServerSocket::bind(const uint32_t port) const
 {
     sockaddr_in server_address;
