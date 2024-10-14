@@ -1,8 +1,8 @@
 #pragma once
 #include <memory>
 
-#include "writers/writer.hpp"
-#include "readers/reader.hpp"
+#include "common/writers/writer.hpp"
+#include "common/readers/reader.hpp"
 #include "proto/server_message.pb.h"
 #include "proto/client_message.pb.h"
 

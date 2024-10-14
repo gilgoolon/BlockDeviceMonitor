@@ -1,5 +1,5 @@
 #pragma once
-#include "../common/socket.hpp"
+#include "../socket.hpp"
 #include "reader.hpp"
 
 class SocketReader final : public IReader

@@ -3,8 +3,8 @@
 #include <filesystem>
 using namespace std::filesystem;
 
-#include "writers/writer.hpp"
-#include "readers/reader.hpp"
+#include "common/writers/writer.hpp"
+#include "common/readers/reader.hpp"
 #include "udev_event.hpp"
 #include "client.hpp"
 #include "client_handler.hpp"

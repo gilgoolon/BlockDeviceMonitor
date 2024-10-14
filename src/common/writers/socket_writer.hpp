@@ -1,6 +1,6 @@
 #pragma once
 #include "writer.hpp"
-#include "../common/socket.hpp"
+#include "../socket.hpp"
 
 class SocketWriter final : public IWriter
 {

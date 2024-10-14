@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 
-#include "../common/buffer.hpp"
+#include "../buffer.hpp"
 
 class IWriter
 {
