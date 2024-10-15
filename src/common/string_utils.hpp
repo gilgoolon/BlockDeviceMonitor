@@ -3,7 +3,7 @@
 #include <vector>
 
 namespace Strings {
-constexpr size_t SPLIT_ONCE = 1;
+static const size_t SPLIT_ONCE = 1;
 
 std::vector<std::string> split(const std::string& string, char token, size_t max);
 
