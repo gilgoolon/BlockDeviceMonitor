@@ -28,9 +28,8 @@ std::string BlockDevice::retrieve_model() const
     } catch (const Exception& ex) {
         if (ex.code() == ExceptionCode::InvalidFile) {
             throw Exception(ExceptionCode::MissingInformation, "model file doesn't exist for device " + _device_name);
-        } else {
-            throw ex;
         }
+        throw;
     }
 }
 
