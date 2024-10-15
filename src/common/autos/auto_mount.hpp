@@ -2,7 +2,7 @@
 #include <filesystem>
 using namespace std::filesystem;
 
-namespace autos
+namespace Autos
 {
     static constexpr uint32_t MOUNT_CREATE_NEW = 0;
     static constexpr nullptr_t FILESYSTEM_FLAGS_NO_FLAGS = nullptr;

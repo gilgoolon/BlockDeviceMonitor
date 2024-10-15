@@ -33,10 +33,10 @@ void UDevEvent::parse_event(const std::string &event)
             _description = current;
             continue;
         }
-        const auto tokens = strings::split(current, ATTRIBUTE_NAME_VALUE_SEPARATOR, strings::SPLIT_ONCE);
+        const auto tokens = Strings::split(current, ATTRIBUTE_NAME_VALUE_SEPARATOR, Strings::SPLIT_ONCE);
         if (tokens.size() == 1) // no separators found
         {
-            throw Exception(ExceptionCode::InvalidArgument, "expected " + strings::to_string(ATTRIBUTE_NAME_VALUE_SEPARATOR) + " tokens when splitting event line by '=' token. Line: '" + current + "'.");
+            throw Exception(ExceptionCode::InvalidArgument, "expected " + Strings::to_string(ATTRIBUTE_NAME_VALUE_SEPARATOR) + " tokens when splitting event line by '=' token. Line: '" + current + "'.");
         }
         const auto attribute_name = tokens.front();
         const auto attribute_value = tokens.back();

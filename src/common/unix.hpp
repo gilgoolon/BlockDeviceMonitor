@@ -3,13 +3,13 @@
 #include <filesystem>
 using namespace std::filesystem;
 
-namespace flags
+namespace Flags
 {
     constexpr int DEFAULT_NO_FLAGS = 0;
     constexpr nullptr_t OPTIONAL_NO_OUTPUT = nullptr;
 };
 
-namespace paths
+namespace Paths
 {
     static const std::filesystem::path CLASS_BLOCK_DEVICE_INFO_PATH = "/sys/class/block";
     static const std::filesystem::path BLOCK_DEVICE_MODEL_REL_PATH = "device/model";

@@ -13,27 +13,27 @@ Socket::Socket(const int socket_fd)
 {
 }
 
-void Socket::send(const Buffer &data) const
+void Socket::send(const VBuffer &data) const
 {
-    os::covered_call(::send, *_socket_fd, data.data(), data.size(), flags::DEFAULT_NO_FLAGS);
+    OS::covered_call(::send, *_socket_fd, data.data(), data.size(), Flags::DEFAULT_NO_FLAGS);
 }
 
-Buffer Socket::receive() const
+VBuffer Socket::receive() const
 {
-    Buffer buffer;
-    const size_t buff_size = buffer::DEFAULT_BUFF_SIZE;
+    VBuffer buffer;
+    const size_t buff_size = Buffer::DEFAULT_BUFF_SIZE;
     ssize_t read_bytes = 0;
     do
     {
         const size_t old_size = buffer.size();
         buffer.resize(old_size + buff_size);
-        read_bytes = os::covered_call(recv, *_socket_fd, buffer.data() + old_size, buff_size, flags::DEFAULT_NO_FLAGS);
+        read_bytes = OS::covered_call(recv, *_socket_fd, buffer.data() + old_size, buff_size, Flags::DEFAULT_NO_FLAGS);
         if (!read_bytes)
         {
             throw Exception(ExceptionCode::DisconnectedException, "client closed the connection");
         }
         buffer.resize(old_size + read_bytes);
-    } while (read_bytes >= buffer::DEFAULT_BUFF_SIZE);
+    } while (read_bytes >= Buffer::DEFAULT_BUFF_SIZE);
     return buffer;
 }
 
@@ -44,7 +44,7 @@ uint32_t Socket::get_socket_fd() const
 
 void Socket::shutdown() const
 {
-    os::covered_call(::shutdown, *_socket_fd, SHUT_RDWR);
+    OS::covered_call(::shutdown, *_socket_fd, SHUT_RDWR);
 }
 
 std::shared_ptr<Socket> accept_client(const uint32_t port)

@@ -2,7 +2,7 @@
 #include <memory>
 #include <mutex>
 
-namespace autos
+namespace Autos
 {
     class AutoLock
     {

@@ -6,7 +6,7 @@ using namespace std::filesystem;
 
 #include "../exceptions.hpp"
 
-namespace os
+namespace OS
 {
     constexpr int UNIX_INT_ERROR_VALUE = -1;
 

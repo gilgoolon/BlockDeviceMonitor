@@ -1,12 +1,12 @@
 #include "socket_writer.hpp"
-using buffer::Buffer;
+using Buffer::VBuffer;
 
 SocketWriter::SocketWriter(std::shared_ptr<Socket> socket)
     : _socket(std::move(socket))
 {
 }
 
-void SocketWriter::write(const Buffer &data)
+void SocketWriter::write(const VBuffer &data)
 {
     _socket->send(data);
 }

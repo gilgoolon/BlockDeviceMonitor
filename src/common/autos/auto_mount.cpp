@@ -4,27 +4,27 @@
 #include "auto_mount.hpp"
 #include "../os_utils.hpp"
 
-autos::AutoMount::AutoMount(const std::filesystem::path &source, const std::filesystem::path &destination)
+Autos::AutoMount::AutoMount(const std::filesystem::path &source, const std::filesystem::path &destination)
     : _source(source), _destination(destination)
 {
     const auto filesystem_type = detect_filesystem_type(source);
-    os::makedirs(_destination);
-    os::covered_call(::mount, _source.c_str(), _destination.c_str(), filesystem_type.c_str(), MOUNT_CREATE_NEW, FILESYSTEM_FLAGS_NO_FLAGS);
+    OS::makedirs(_destination);
+    OS::covered_call(::mount, _source.c_str(), _destination.c_str(), filesystem_type.c_str(), MOUNT_CREATE_NEW, FILESYSTEM_FLAGS_NO_FLAGS);
 }
 
-autos::AutoMount::~AutoMount()
+Autos::AutoMount::~AutoMount()
 {
     // umount2 instead of regular umount to force unmounting
     try
     {
-        os::covered_call(::umount2, _destination.c_str(), MNT_FORCE);
+        OS::covered_call(::umount2, _destination.c_str(), MNT_FORCE);
     }
     catch (...)
     {
     }
 }
 
-std::string autos::AutoMount::detect_filesystem_type(const std::filesystem::path &device_name)
+std::string Autos::AutoMount::detect_filesystem_type(const std::filesystem::path &device_name)
 {
     // TODO: Make this function more secure - this is a version of ChatGPT generated code
     blkid_probe pr = blkid_new_probe_from_filename(device_name.c_str());

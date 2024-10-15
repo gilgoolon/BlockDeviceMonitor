@@ -2,7 +2,7 @@
 
 #include "rules_utils.hpp"
 
-bool rules::is_rule_matching(const RuleFilter &rule, const BlockDevice &device)
+bool Rules::is_rule_matching(const RuleFilter &rule, const BlockDevice &device)
 {
     if (rule.has_model_regex() && !std::regex_match(device.retrieve_model(), std::regex(rule.model_regex())))
         return false;

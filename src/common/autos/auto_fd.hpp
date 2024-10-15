@@ -2,7 +2,7 @@
 #include <memory>
 #include <unistd.h>
 
-namespace autos
+namespace Autos
 {
 
     class AutoFd final

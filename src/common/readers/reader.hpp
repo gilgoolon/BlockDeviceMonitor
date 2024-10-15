@@ -1,11 +1,13 @@
 #pragma once
 #include <string>
-using buffer::Buffer;
+
+#include "../buffer.hpp"
+using Buffer::VBuffer;
 
 class IReader
 {
 public:
     virtual ~IReader() = default;
 
-    virtual Buffer read() = 0;
+    virtual VBuffer read() = 0;
 };

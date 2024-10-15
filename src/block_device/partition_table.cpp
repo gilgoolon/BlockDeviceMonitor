@@ -9,7 +9,7 @@ static constexpr std::string_view PARTITION_TABLE_PATH = "/proc/partitions";
 
 std::vector<PartitionTableEntry> get_partition_table()
 {
-    const auto partition_table_data = os::read_text_file(PARTITION_TABLE_PATH);
+    const auto partition_table_data = OS::read_text_file(PARTITION_TABLE_PATH);
     return parse_partition_table(partition_table_data);
 }
 

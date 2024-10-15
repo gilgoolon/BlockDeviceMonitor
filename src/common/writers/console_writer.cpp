@@ -1,7 +1,7 @@
 #include "console_writer.hpp"
-using buffer::Buffer;
+using Buffer::VBuffer;
 
-void ConsoleWriter::write(const Buffer &data)
+void ConsoleWriter::write(const VBuffer &data)
 {
-    std::cout << buffer::to_string(data) << std::endl;
+    std::cout << Buffer::to_string(data) << std::endl;
 }

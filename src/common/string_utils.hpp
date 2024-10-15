@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 
-namespace strings
+namespace Strings
 {
     constexpr size_t SPLIT_ONCE = 1;
 

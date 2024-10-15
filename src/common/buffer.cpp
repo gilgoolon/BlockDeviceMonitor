@@ -1,12 +1,12 @@
 #include "buffer.hpp"
-using buffer::Buffer;
+using Buffer::VBuffer;
 
-std::string buffer::to_string(const Buffer &buffer)
+std::string Buffer::to_string(const VBuffer &buffer)
 {
     return std::string(reinterpret_cast<const char *>(buffer.data()), buffer.size());
 }
 
-Buffer buffer::to_buffer(const std::string &str)
+VBuffer Buffer::to_buffer(const std::string &str)
 {
-    return Buffer(str.begin(), str.end());
+    return VBuffer(str.begin(), str.end());
 }

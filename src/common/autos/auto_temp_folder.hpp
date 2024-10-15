@@ -4,7 +4,7 @@
 #include <filesystem>
 using namespace std::filesystem;
 
-namespace autos
+namespace Autos
 {
     constexpr char *MOUNT_ERROR_VALUE = nullptr;
 

@@ -5,7 +5,7 @@ SocketReader::SocketReader(std::shared_ptr<Socket> socket)
 {
 }
 
-Buffer SocketReader::read()
+VBuffer SocketReader::read()
 {
     return _socket->receive();
 }

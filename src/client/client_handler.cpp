@@ -51,7 +51,7 @@ void ClientHandler::handle_get_existing_rules(ClientMessage &client_message)
 {
     ExistingRulesServerMessageContent content;
     {
-        autos::AutoLock auto_rules_lock(_rules_manager->get_lock());
+        Autos::AutoLock auto_rules_lock(_rules_manager->get_lock());
         for (auto &rule : *_rules_manager)
         {
             content.add_rules()->CopyFrom(rule);

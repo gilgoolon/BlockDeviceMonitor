@@ -8,5 +8,5 @@ class ConsoleWriter final : public IWriter
 public:
     explicit ConsoleWriter() = default;
 
-    void write(const buffer::Buffer &data) override;
+    void write(const Buffer::VBuffer &data) override;
 };

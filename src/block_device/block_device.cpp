@@ -21,8 +21,8 @@ std::string BlockDevice::retrieve_model() const
 {
     try
     {
-        const auto model_path = paths::CLASS_BLOCK_DEVICE_INFO_PATH / _device_name / paths::BLOCK_DEVICE_MODEL_REL_PATH;
-        return strings::strip(os::read_text_file(model_path), '\n');
+        const auto model_path = Paths::CLASS_BLOCK_DEVICE_INFO_PATH / _device_name / Paths::BLOCK_DEVICE_MODEL_REL_PATH;
+        return Strings::strip(OS::read_text_file(model_path), '\n');
     }
     catch (const Exception &ex)
     {
@@ -41,8 +41,8 @@ std::string BlockDevice::retrieve_vendor() const
 {
     try
     {
-        const auto vendor_path = paths::CLASS_BLOCK_DEVICE_INFO_PATH / _device_name / paths::BLOCK_DEVICE_VENDOR_REL_PATH;
-        return strings::strip(os::read_text_file(vendor_path), '\n');
+        const auto vendor_path = Paths::CLASS_BLOCK_DEVICE_INFO_PATH / _device_name / Paths::BLOCK_DEVICE_VENDOR_REL_PATH;
+        return Strings::strip(OS::read_text_file(vendor_path), '\n');
     }
     catch (const Exception &ex)
     {
@@ -61,8 +61,8 @@ size_t BlockDevice::retrieve_size() const
 {
     try
     {
-        const auto vendor_path = paths::BLOCK_DEVICE_INFO_PATH / _device_name / paths::BLOCK_DEVICE_SIZE_REL_PATH;
-        return std::stol(os::read_text_file(vendor_path));
+        const auto vendor_path = Paths::BLOCK_DEVICE_INFO_PATH / _device_name / Paths::BLOCK_DEVICE_SIZE_REL_PATH;
+        return std::stol(OS::read_text_file(vendor_path));
     }
     catch (const Exception &ex)
     {
@@ -92,15 +92,15 @@ size_t BlockDevice::retrieve_partitions_count() const
     }
     const auto device_entry = *device_entry_result;
     return std::count_if(partition_table.begin(), partition_table.end(), [device_entry](const auto &entry)
-                         { return strings::starts_with(entry.name, device_entry.name) && entry.major == device_entry.major; });
+                         { return Strings::starts_with(entry.name, device_entry.name) && entry.major == device_entry.major; });
 }
 
 bool BlockDevice::retrieve_is_external() const
 {
     try
     {
-        const auto removable_path = paths::BLOCK_DEVICE_INFO_PATH / _device_name / paths::BLOCK_DEVICE_REMOVABLE_REL_PATH;
-        return std::stoi(os::read_text_file(removable_path));
+        const auto removable_path = Paths::BLOCK_DEVICE_INFO_PATH / _device_name / Paths::BLOCK_DEVICE_REMOVABLE_REL_PATH;
+        return std::stoi(OS::read_text_file(removable_path));
     }
     catch (const Exception &ex)
     {
@@ -117,5 +117,5 @@ bool BlockDevice::retrieve_is_external() const
 
 std::filesystem::path BlockDevice::get_path() const
 {
-    return paths::DEV_SYSTEM_PATH / _device_name;
+    return Paths::DEV_SYSTEM_PATH / _device_name;
 }
