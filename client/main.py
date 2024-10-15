@@ -1,5 +1,10 @@
+"""
+This is a POC intended for initial testing of the entire application
+The code here isn't for production purposes!
+"""
+
 import socket
-import proto.server_message_pb2 as server_message
+import server_message_pb2 as server_message
 
 
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client:
