@@ -37,6 +37,8 @@ ReturnType call_with_default(const ReturnType& default_value, Callable func, Arg
 
 std::string read_text_file(const std::filesystem::path& path);
 
+uint64_t read_uint64_from_file(const std::filesystem::path& path);
+
 std::string current_unix_timestamp_str();
 
 void makedirs(const std::filesystem::path& path);

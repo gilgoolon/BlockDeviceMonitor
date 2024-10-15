@@ -14,6 +14,11 @@ std::string OS::read_text_file(const std::filesystem::path& path)
     return content.str();
 }
 
+uint64_t OS::read_uint64_from_file(const std::filesystem::path& path)
+{
+    return std::stol(read_text_file(path));
+}
+
 std::string OS::current_unix_timestamp_str()
 {
     return std::to_string(std::time(nullptr));

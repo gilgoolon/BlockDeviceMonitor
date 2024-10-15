@@ -51,8 +51,8 @@ std::string BlockDevice::retrieve_vendor() const
 size_t BlockDevice::retrieve_size() const
 {
     try {
-        const auto vendor_path = Paths::BLOCK_DEVICE_INFO_PATH / _device_name / Paths::BLOCK_DEVICE_SIZE_REL_PATH;
-        return std::stol(OS::read_text_file(vendor_path));
+        const auto size_path = Paths::BLOCK_DEVICE_INFO_PATH / _device_name / Paths::BLOCK_DEVICE_SIZE_REL_PATH;
+        return OS::read_uint64_from_file(size_path);
     } catch (const Exception& ex) {
         if (ex.code() == ExceptionCode::InvalidFile) {
             throw Exception(ExceptionCode::MissingInformation, "size file doesn't exist for device " + _device_name);
@@ -83,7 +83,7 @@ bool BlockDevice::retrieve_is_external() const
 {
     try {
         const auto removable_path = Paths::BLOCK_DEVICE_INFO_PATH / _device_name / Paths::BLOCK_DEVICE_REMOVABLE_REL_PATH;
-        return std::stoi(OS::read_text_file(removable_path));
+        return OS::read_uint64_from_file(removable_path);
     } catch (const Exception& ex) {
         if (ex.code() == ExceptionCode::InvalidFile) {
             throw Exception(ExceptionCode::MissingInformation,
