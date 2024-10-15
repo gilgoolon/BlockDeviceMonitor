@@ -62,6 +62,9 @@ uint64_t BlockDevice::retrieve_size() const
     } catch (const std::invalid_argument& ex) {
         throw Exception(ExceptionCode::MissingInformation,
             "size file contents were not a valid size for device " + _device_name);
+    } catch (const std::range_error& ex) {
+        throw Exception(ExceptionCode::MissingInformation,
+            "number contained in size file is too large " + _device_name);
     }
 }
 
