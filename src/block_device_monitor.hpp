@@ -33,6 +33,8 @@ private:
 
     void handle_client(std::shared_ptr<Client> client);
 
+    void handle_event(const UDevEvent& event);
+
     void report_event(const UDevEvent& event);
 
     bool should_report_event(const UDevEvent& event);

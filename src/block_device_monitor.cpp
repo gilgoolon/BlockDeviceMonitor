@@ -39,9 +39,7 @@ void BlockDeviceMonitor::start()
             continue;
         }
         report_event(event);
-        if (event.is_add_event()) {
-            apply_rules_for_device(event.get_devname());
-        }
+        handle_event(event);
     }
 }
 
@@ -63,6 +61,13 @@ void BlockDeviceMonitor::handle_client(std::shared_ptr<Client> client)
     } catch (...) {
     }
     remove_client(client);
+}
+
+void BlockDeviceMonitor::handle_event(const UDevEvent& event)
+{
+    if (event.is_add_event()) {
+        apply_rules_for_device(event.get_devname());
+    }
 }
 
 void BlockDeviceMonitor::report_event(const UDevEvent& event)
