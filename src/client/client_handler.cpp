@@ -10,7 +10,6 @@ ClientHandler::ClientHandler(std::shared_ptr<Client> client, std::shared_ptr<Rul
 
 void ClientHandler::handle_indefinitely()
 {
-    std::cout << __FUNCTION__ << " handle client commands loop" << std::endl;
     while (true) {
         auto client_message = _client->receive();
         switch (client_message.type()) {

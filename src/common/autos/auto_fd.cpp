@@ -1,4 +1,5 @@
 #include "auto_fd.hpp"
+#include "../logging/logger.hpp"
 #include "../os_utils.hpp"
 
 Autos::AutoFd::AutoFd(const int fd)
@@ -23,7 +24,8 @@ Autos::AutoFd::~AutoFd()
         if (OS::UNIX_INT_ERROR_VALUE != _fd) {
             OS::covered_call(::close, _fd);
         }
-    } catch (...) {
+    } catch (const ErrnoException& ex) {
+        WARNING(ex.what())
     }
 }
 

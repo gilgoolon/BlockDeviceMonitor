@@ -41,9 +41,8 @@ std::string BlockDevice::retrieve_vendor() const
     } catch (const Exception& ex) {
         if (ex.code() == ExceptionCode::InvalidFile) {
             throw Exception(ExceptionCode::MissingInformation, "vendor file doesn't exist for device " + _device_name);
-        } else {
-            throw ex;
         }
+        throw;
     }
 }
 
@@ -55,9 +54,8 @@ uint64_t BlockDevice::retrieve_size() const
     } catch (const Exception& ex) {
         if (ex.code() == ExceptionCode::InvalidFile) {
             throw Exception(ExceptionCode::MissingInformation, "size file doesn't exist for device " + _device_name);
-        } else {
-            throw ex;
         }
+        throw;
     } catch (const std::invalid_argument& ex) {
         throw Exception(ExceptionCode::MissingInformation,
             "size file contents were not a valid size for device " + _device_name);
@@ -90,9 +88,8 @@ bool BlockDevice::retrieve_is_external() const
         if (ex.code() == ExceptionCode::InvalidFile) {
             throw Exception(ExceptionCode::MissingInformation,
                 "external file doesn't exist for device " + _device_name);
-        } else {
-            throw ex;
         }
+        throw;
     }
 }
 

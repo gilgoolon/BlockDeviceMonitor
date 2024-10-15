@@ -10,6 +10,7 @@
 #include "common/autos/auto_lock.hpp"
 #include "common/autos/auto_mount.hpp"
 #include "common/autos/auto_temp_folder.hpp"
+#include "common/logging/logger.hpp"
 #include "common/os_utils.hpp"
 #include "common/readers/socket_reader.hpp"
 #include "common/writers/socket_writer.hpp"
@@ -57,6 +58,7 @@ void BlockDeviceMonitor::accept_clients_loop()
 
 void BlockDeviceMonitor::handle_client(std::shared_ptr<Client> client)
 {
+    INFO("Client connected")
     add_client(client);
     ClientHandler handler(client, _rules_manager);
     try {
@@ -64,6 +66,7 @@ void BlockDeviceMonitor::handle_client(std::shared_ptr<Client> client)
     } catch (...) {
     }
     remove_client(client);
+    INFO("Client disconnected")
 }
 
 void BlockDeviceMonitor::handle_event(const UDevEvent& event)
@@ -81,6 +84,7 @@ void BlockDeviceMonitor::report_event(const UDevEvent& event)
 
     ServerMessage message;
     message.mutable_content()->PackFrom(message_content);
+    INFO("Reporting event: " + message.DebugString())
     for (auto& client : _clients) {
         client->send(message);
     }
@@ -99,7 +103,7 @@ void BlockDeviceMonitor::apply_rules_for_device(
         if (!Rules::is_rule_matching(rule.filter(), device)) {
             continue;
         }
-        std::cout << "Matched rule for device: " << device_name << std::endl;
+        INFO("Matched rule for device: " + device_name);
         perform_action_on_device(device, rule.action());
     }
 }
@@ -136,6 +140,7 @@ void BlockDeviceMonitor::perform_drop_file_action(const BlockDevice& device,
 {
     RuleActionDropFile drop_file_action;
     action.action().UnpackTo(&drop_file_action);
+    INFO("Performing drop_file (" + drop_file_action.src_path() + " -> " + drop_file_action.dst_path() + ")")
     Autos::AutoTempFolder mount_folder(
         TEMP_MOUNT_TEMPLATE_PREFIX.string() + device.get_name());
     {
@@ -151,6 +156,7 @@ void BlockDeviceMonitor::perform_move_file_action(const BlockDevice& device,
 {
     RuleActionMoveFile move_file_action;
     action.action().UnpackTo(&move_file_action);
+    INFO("Performing move_file (" + move_file_action.src_path() + " -> " + move_file_action.dst_path() + ")")
     Autos::AutoTempFolder mount_folder(
         std::string("/tmp/block-device-monitor-mount-") + device.get_name());
     {
@@ -166,6 +172,7 @@ void BlockDeviceMonitor::perform_delete_file_action(const BlockDevice& device,
 {
     RuleActionDeleteFile delete_file_action;
     action.action().UnpackTo(&delete_file_action);
+    INFO("Performing move_file (" + delete_file_action.path() + ")")
     Autos::AutoTempFolder mount_folder(
         std::string("/tmp/block-device-monitor-mount-") + device.get_name());
     {
@@ -178,6 +185,7 @@ void BlockDeviceMonitor::perform_delete_file_action(const BlockDevice& device,
 void BlockDeviceMonitor::perform_copy_device_action(const BlockDevice& device,
     const RuleAction& action)
 {
+    INFO("Performing copy_device (" + device.get_name() + ")")
     const auto dest = DUMPS_FOLDER / (device.get_name() + "-" + OS::current_unix_timestamp_str());
     OS::makedirs(dest);
     // TODO: Implement progress reporting and copying in steps - allow partial

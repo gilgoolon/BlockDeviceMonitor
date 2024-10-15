@@ -13,14 +13,14 @@ int main(const int argc, char** argv)
         results_path = args.get_results_path();
         port = args.get_port();
     } catch (const Exception& ex) {
-        std::cerr << ex.what() << std::endl;
+        std::cout << ex.what() << std::endl;
     }
     try {
         auto monitor = make_block_device_monitor(results_path, port);
         std::cout << "Monitoring device events..." << std::endl;
         monitor->start();
     } catch (const Exception& ex) {
-        std::cerr << "Failed to create/run monitor. Error: " << ex.what() << std::endl;
+        std::cout << "Failed to create/run monitor. Error: " << ex.what() << std::endl;
         return EXIT_FAILURE;
     }
     return EXIT_SUCCESS;

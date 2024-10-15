@@ -1,6 +1,7 @@
 #include <blkid/blkid.h>
 #include <sys/mount.h>
 
+#include "../logging/logger.hpp"
 #include "../os_utils.hpp"
 #include "auto_mount.hpp"
 
@@ -21,7 +22,8 @@ Autos::AutoMount::~AutoMount()
     // umount2 instead of regular umount to force unmounting
     try {
         OS::covered_call(::umount2, _destination.c_str(), MNT_FORCE);
-    } catch (...) {
+    } catch (const ErrnoException& ex) {
+        WARNING(ex.what())
     }
 }
 
