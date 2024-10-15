@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+enum BlockDeviceEventAction {
+    ADD = 0;
+    REMOVE = 1;
+}
+
+enum BlockDeviceType {
+    INTERNAL = 0;
+    EXTERNAL = 1;
+}
+
+message BlockDeviceEvent {
+    BlockDeviceEventAction action = 1;
+    string devname = 2;
+    optional string vendor = 3;
+    optional string model = 4;
+    optional int32 size = 5;
+    optional int32 partitions = 6;
+    optional BlockDeviceType type = 7;
+}

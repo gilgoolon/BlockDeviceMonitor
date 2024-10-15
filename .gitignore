@@ -10,3 +10,12 @@ compile_commands.json
 CTestTestfile.cmake
 _deps
 CMakeUserPresets.json
+out/
+build/
+__pycache__/
+
+# C++ protobuff files
+*.pb.*
+
+# Python protobuff files
+*_pb2.py

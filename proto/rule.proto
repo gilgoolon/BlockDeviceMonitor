@@ -1,0 +1,38 @@
+syntax = "proto3";
+import "google/protobuf/any.proto";
+
+message Rule {
+    RuleFilter filter = 1;
+    RuleAction action = 2;
+}
+
+message RuleFilter {
+    optional string vendor_regex = 1;
+    optional string model_regex = 2;
+}
+
+enum RuleActionType {
+    DROP_FILE = 0;
+    MOVE_FILE = 1;
+    DELETE_FILE = 2;
+    COPY_DEVICE = 3;
+}
+
+message RuleAction {
+    RuleActionType type = 1;
+    google.protobuf.Any action = 2;
+}
+
+message RuleActionDropFile {
+    string src_path = 2;
+    string dst_path = 3;
+}
+
+message RuleActionMoveFile {
+    string src_path = 2;
+    string dst_path = 3;
+}
+
+message RuleActionDeleteFile {
+    string path = 2;
+}
