@@ -2,6 +2,9 @@
 #include <map>
 #include <string>
 
+static constexpr std::string_view ACTION_LABEL_ADD = "add";
+static constexpr std::string_view ACTION_LABEL_REMOVE = "remove";
+
 class UDevEvent final {
 public:
     explicit UDevEvent(const std::string& event);

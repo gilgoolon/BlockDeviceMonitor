@@ -12,9 +12,6 @@ static constexpr std::string_view ATTRIBUTE_NAME_DEVNAME = "DEVNAME";
 static constexpr std::string_view ATTRIBUTE_NAME_SUBSYSTEM = "SUBSYSTEM";
 static constexpr std::string_view SUBSYSTEM_BLOCK = "block";
 
-static constexpr std::string_view ACTION_LABEL_ADD = "add";
-static constexpr std::string_view ACTION_LABEL_REMOVE = "remove";
-
 UDevEvent::UDevEvent(const std::string& event)
 {
     parse_event(event);
