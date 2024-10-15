@@ -5,7 +5,7 @@ using Buffer::VBuffer;
 
 class Socket final {
 public:
-    explicit Socket(int socket_fd);
+    explicit Socket(const int socket_fd);
 
     void send(const VBuffer& data) const;
 

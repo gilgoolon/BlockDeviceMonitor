@@ -7,9 +7,9 @@
 
 class ServerSocket final {
 public:
-    explicit ServerSocket(uint32_t port);
+    explicit ServerSocket(const uint32_t port);
 
-    void listen(size_t max_connections) const;
+    void listen(const size_t max_connections) const;
 
     std::shared_ptr<Socket> accept() const;
 
@@ -18,5 +18,5 @@ public:
 private:
     const Autos::AutoFd _socket_fd;
 
-    void bind(uint32_t port) const;
+    void bind(const uint32_t port) const;
 };

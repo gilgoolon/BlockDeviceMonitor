@@ -12,7 +12,7 @@ constexpr int UNIX_INT_ERROR_VALUE = -1;
 template <typename Func, typename... Args>
 int covered_call(const int error_value, Func func, Args... args)
 {
-    int result = func(std::forward<Args>(args)...);
+    const int result = func(std::forward<Args>(args)...);
     if (error_value == result) {
         throw ErrnoException();
     }
