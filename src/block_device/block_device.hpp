@@ -11,7 +11,7 @@ public:
 
     std::string retrieve_vendor() const;
 
-    size_t retrieve_size() const;
+    uint64_t retrieve_size() const;
 
     size_t retrieve_partitions_count() const;
 

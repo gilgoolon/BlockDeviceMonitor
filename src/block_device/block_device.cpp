@@ -48,7 +48,7 @@ std::string BlockDevice::retrieve_vendor() const
     }
 }
 
-size_t BlockDevice::retrieve_size() const
+uint64_t BlockDevice::retrieve_size() const
 {
     try {
         const auto size_path = Paths::BLOCK_DEVICE_INFO_PATH / _device_name / Paths::BLOCK_DEVICE_SIZE_REL_PATH;
