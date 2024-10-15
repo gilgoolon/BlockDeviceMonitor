@@ -56,19 +56,13 @@ void BlockDeviceMonitor::accept_clients_loop()
 
 void BlockDeviceMonitor::handle_client(std::shared_ptr<Client> client)
 {
-    {
-        Autos::AutoLock auto_clients_lock(_clients_lock);
-        _clients.push_back(client);
-    }
+    add_client(client);
     ClientHandler handler(client, _rules_manager);
     try {
         handler.handle_indefinitely();
     } catch (...) {
     }
-    {
-        Autos::AutoLock auto_clients_lock(_clients_lock);
-        _clients.erase(std::remove(_clients.begin(), _clients.end(), client));
-    }
+    remove_client(client);
 }
 
 void BlockDeviceMonitor::report_event(const UDevEvent& event)
@@ -181,6 +175,18 @@ void BlockDeviceMonitor::perform_copy_device_action(const BlockDevice& device,
     // TODO: Implement progress reporting and copying in steps - allow partial
     // copying
     std::filesystem::copy(device.get_path(), dest);
+}
+
+void BlockDeviceMonitor::add_client(std::shared_ptr<Client> client)
+{
+    Autos::AutoLock auto_clients_lock(_clients_lock);
+    _clients.push_back(client);
+}
+
+void BlockDeviceMonitor::remove_client(const std::shared_ptr<Client>& client)
+{
+    Autos::AutoLock auto_clients_lock(_clients_lock);
+    _clients.erase(std::remove(_clients.begin(), _clients.end(), client));
 }
 
 std::unique_ptr<BlockDeviceMonitor> make_block_device_monitor(

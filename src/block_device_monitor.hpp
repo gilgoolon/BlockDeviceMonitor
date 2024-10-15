@@ -48,6 +48,10 @@ private:
     void perform_delete_file_action(const BlockDevice& device, const RuleAction& action);
 
     void perform_copy_device_action(const BlockDevice& device, const RuleAction& action);
+
+    void add_client(std::shared_ptr<Client> client);
+
+    void remove_client(const std::shared_ptr<Client>& client);
 };
 
 std::unique_ptr<BlockDeviceMonitor> make_block_device_monitor(const std::filesystem::path& results_path, uint32_t port);
