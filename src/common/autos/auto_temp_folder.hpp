@@ -5,11 +5,10 @@
 using namespace std::filesystem;
 
 namespace Autos {
-constexpr char* MOUNT_ERROR_VALUE = nullptr;
 
 class AutoTempFolder final {
 public:
-    explicit AutoTempFolder(const std::string& template_name);
+    explicit AutoTempFolder(const std::filesystem::path& template_path);
 
     ~AutoTempFolder();
 

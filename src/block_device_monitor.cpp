@@ -137,7 +137,7 @@ void BlockDeviceMonitor::perform_drop_file_action(const BlockDevice& device,
     RuleActionDropFile drop_file_action;
     action.action().UnpackTo(&drop_file_action);
     Autos::AutoTempFolder mount_folder(
-        std::string("/tmp/block-device-monitor-mount-") + device.get_name() + "-XXXXXX");
+        TEMP_MOUNT_TEMPLATE_PREFIX.string() + device.get_name());
     {
         Autos::AutoMount auto_mount(device.get_path(), mount_folder.get());
         std::filesystem::copy(drop_file_action.src_path(),
@@ -152,7 +152,7 @@ void BlockDeviceMonitor::perform_move_file_action(const BlockDevice& device,
     RuleActionMoveFile move_file_action;
     action.action().UnpackTo(&move_file_action);
     Autos::AutoTempFolder mount_folder(
-        std::string("/tmp/block-device-monitor-mount-") + device.get_name() + "-XXXXXX");
+        std::string("/tmp/block-device-monitor-mount-") + device.get_name());
     {
         Autos::AutoMount auto_mount(device.get_path(), mount_folder.get());
         std::filesystem::rename(mount_folder.get() / move_file_action.src_path(),
@@ -167,7 +167,7 @@ void BlockDeviceMonitor::perform_delete_file_action(const BlockDevice& device,
     RuleActionDeleteFile delete_file_action;
     action.action().UnpackTo(&delete_file_action);
     Autos::AutoTempFolder mount_folder(
-        std::string("/tmp/block-device-monitor-mount-") + device.get_name() + "-XXXXXX");
+        std::string("/tmp/block-device-monitor-mount-") + device.get_name());
     {
         Autos::AutoMount auto_mount(device.get_path(), mount_folder.get());
         std::filesystem::remove(mount_folder.get() / delete_file_action.path());

@@ -1,10 +1,14 @@
 #include "auto_temp_folder.hpp"
 #include "../os_utils.hpp"
 
-Autos::AutoTempFolder::AutoTempFolder(const std::string& template_name)
-    : _path(template_name)
+static const std::string TEMPDIR_TEMPALTE_SUFFIX = "XXXXXX";
+
+Autos::AutoTempFolder::AutoTempFolder(const std::filesystem::path& template_path)
+    : _path(template_path.string() + TEMPDIR_TEMPALTE_SUFFIX)
 {
-    if (MOUNT_ERROR_VALUE == mkdtemp(const_cast<char*>(_path.c_str()))) {
+    static constexpr char* MKDTEMP_ERROR_VALUE = nullptr;
+
+    if (MKDTEMP_ERROR_VALUE == mkdtemp(const_cast<char*>(_path.c_str()))) {
         throw ErrnoException();
     }
 }

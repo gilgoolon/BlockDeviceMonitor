@@ -14,6 +14,7 @@ using namespace std::filesystem;
 #include "proto/rule.pb.h"
 
 const static std::filesystem::path DUMPS_FOLDER = "dumps";
+const static std::filesystem::path TEMP_MOUNT_TEMPLATE_PREFIX = "/tmp/block-device-monitor-mount-";
 
 class BlockDeviceMonitor final {
 public:
