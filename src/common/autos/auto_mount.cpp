@@ -8,6 +8,9 @@ Autos::AutoMount::AutoMount(const std::filesystem::path& source, const std::file
     : _source(source)
     , _destination(destination)
 {
+    static constexpr uint32_t MOUNT_CREATE_NEW = 0;
+    static constexpr nullptr_t FILESYSTEM_FLAGS_NO_FLAGS = nullptr;
+
     const auto filesystem_type = detect_filesystem_type(source);
     OS::makedirs(_destination);
     OS::covered_call(::mount, _source.c_str(), _destination.c_str(), filesystem_type.c_str(), MOUNT_CREATE_NEW, FILESYSTEM_FLAGS_NO_FLAGS);

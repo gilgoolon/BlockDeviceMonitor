@@ -3,8 +3,6 @@
 using namespace std::filesystem;
 
 namespace Autos {
-static constexpr uint32_t MOUNT_CREATE_NEW = 0;
-static constexpr nullptr_t FILESYSTEM_FLAGS_NO_FLAGS = nullptr;
 
 class AutoMount final {
 public:
