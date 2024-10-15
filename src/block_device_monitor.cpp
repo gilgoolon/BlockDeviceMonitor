@@ -46,9 +46,12 @@ void BlockDeviceMonitor::start()
 void BlockDeviceMonitor::accept_clients_loop()
 {
     while (true) {
-        auto client = _client_accepter->accept();
-        std::thread handle_client_thread(&BlockDeviceMonitor::handle_client, this, std::move(client));
-        handle_client_thread.detach();
+        try {
+            auto client = _client_accepter->accept();
+            std::thread handle_client_thread(&BlockDeviceMonitor::handle_client, this, std::move(client));
+            handle_client_thread.detach();
+        } catch (...) {
+        }
     }
 }
 
