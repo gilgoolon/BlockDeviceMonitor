@@ -8,11 +8,8 @@ Autos::AutoLock::AutoLock(std::shared_ptr<std::mutex> mutex)
 
 Autos::AutoLock::~AutoLock()
 {
-    try
-    {
+    try {
         _mutex->unlock();
-    }
-    catch (...)
-    {
+    } catch (...) {
     }
 }

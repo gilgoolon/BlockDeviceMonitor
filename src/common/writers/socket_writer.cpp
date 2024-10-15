@@ -6,7 +6,7 @@ SocketWriter::SocketWriter(std::shared_ptr<Socket> socket)
 {
 }
 
-void SocketWriter::write(const VBuffer &data)
+void SocketWriter::write(const VBuffer& data)
 {
     _socket->send(data);
 }

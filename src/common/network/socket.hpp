@@ -1,14 +1,13 @@
 #pragma once
-#include "../buffer.hpp"
 #include "../autos/auto_fd.hpp"
+#include "../buffer.hpp"
 using Buffer::VBuffer;
 
-class Socket final
-{
+class Socket final {
 public:
     explicit Socket(int socket_fd);
 
-    void send(const VBuffer &data) const;
+    void send(const VBuffer& data) const;
 
     VBuffer receive() const;
 

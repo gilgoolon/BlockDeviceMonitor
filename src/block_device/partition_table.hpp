@@ -2,8 +2,7 @@
 #include <string>
 #include <vector>
 
-struct PartitionTableEntry final
-{
+struct PartitionTableEntry final {
     size_t major;
     size_t minor;
     size_t blocks;
@@ -12,4 +11,4 @@ struct PartitionTableEntry final
 
 std::vector<PartitionTableEntry> get_partition_table();
 
-std::vector<PartitionTableEntry> parse_partition_table(const std::string &partition_table);
+std::vector<PartitionTableEntry> parse_partition_table(const std::string& partition_table);

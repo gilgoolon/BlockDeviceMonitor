@@ -1,22 +1,21 @@
 #pragma once
-#include <memory>
 #include <filesystem>
+#include <memory>
 using namespace std::filesystem;
 
-#include "common/writers/writer.hpp"
-#include "common/readers/reader.hpp"
-#include "block_device/udev_event.hpp"
 #include "block_device/block_device.hpp"
+#include "block_device/udev_event.hpp"
 #include "client/client.hpp"
-#include "client/client_handler.hpp"
 #include "client/client_accepter.hpp"
+#include "client/client_handler.hpp"
 #include "client/rules_manager.hpp"
+#include "common/readers/reader.hpp"
+#include "common/writers/writer.hpp"
 #include "proto/rule.pb.h"
 
 const static std::filesystem::path DUMPS_FOLDER = "dumps";
 
-class BlockDeviceMonitor final
-{
+class BlockDeviceMonitor final {
 public:
     explicit BlockDeviceMonitor(std::filesystem::path results_path, std::unique_ptr<IReader> event_reader, std::unique_ptr<ClientAccepter> client_accepter);
 
@@ -34,21 +33,21 @@ private:
 
     void handle_client(std::shared_ptr<Client> client);
 
-    void report_event(const UDevEvent &event);
+    void report_event(const UDevEvent& event);
 
-    bool should_report_event(const UDevEvent &event);
+    bool should_report_event(const UDevEvent& event);
 
-    void apply_rules_for_device(const std::string &device_name);
+    void apply_rules_for_device(const std::string& device_name);
 
-    void perform_action_on_device(const BlockDevice &device, const RuleAction &action);
+    void perform_action_on_device(const BlockDevice& device, const RuleAction& action);
 
-    void perform_drop_file_action(const BlockDevice &device, const RuleAction &action);
+    void perform_drop_file_action(const BlockDevice& device, const RuleAction& action);
 
-    void perform_move_file_action(const BlockDevice &device, const RuleAction &action);
+    void perform_move_file_action(const BlockDevice& device, const RuleAction& action);
 
-    void perform_delete_file_action(const BlockDevice &device, const RuleAction &action);
+    void perform_delete_file_action(const BlockDevice& device, const RuleAction& action);
 
-    void perform_copy_device_action(const BlockDevice &device, const RuleAction &action);
+    void perform_copy_device_action(const BlockDevice& device, const RuleAction& action);
 };
 
-std::unique_ptr<BlockDeviceMonitor> make_block_device_monitor(const std::filesystem::path &results_path, uint32_t port);
+std::unique_ptr<BlockDeviceMonitor> make_block_device_monitor(const std::filesystem::path& results_path, uint32_t port);

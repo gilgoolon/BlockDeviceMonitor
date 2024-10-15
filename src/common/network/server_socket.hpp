@@ -1,12 +1,11 @@
 #pragma once
-#include <netinet/in.h>
 #include <memory>
+#include <netinet/in.h>
 
-#include "socket.hpp"
 #include "../autos/auto_fd.hpp"
+#include "socket.hpp"
 
-class ServerSocket final
-{
+class ServerSocket final {
 public:
     explicit ServerSocket(uint32_t port);
 

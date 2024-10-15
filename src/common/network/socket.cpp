@@ -1,19 +1,18 @@
+#include <poll.h>
 #include <sys/socket.h>
 #include <unistd.h>
-#include <poll.h>
-#include <unistd.h>
 
-#include "server_socket.hpp"
-#include "socket.hpp"
 #include "../os_utils.hpp"
 #include "../unix.hpp"
+#include "server_socket.hpp"
+#include "socket.hpp"
 
 Socket::Socket(const int socket_fd)
     : _socket_fd(socket_fd)
 {
 }
 
-void Socket::send(const VBuffer &data) const
+void Socket::send(const VBuffer& data) const
 {
     OS::covered_call(::send, *_socket_fd, data.data(), data.size(), Flags::DEFAULT_NO_FLAGS);
 }
@@ -23,13 +22,11 @@ VBuffer Socket::receive() const
     VBuffer buffer;
     const size_t buff_size = Buffer::DEFAULT_BUFF_SIZE;
     ssize_t read_bytes = 0;
-    do
-    {
+    do {
         const size_t old_size = buffer.size();
         buffer.resize(old_size + buff_size);
         read_bytes = OS::covered_call(recv, *_socket_fd, buffer.data() + old_size, buff_size, Flags::DEFAULT_NO_FLAGS);
-        if (!read_bytes)
-        {
+        if (!read_bytes) {
             throw Exception(ExceptionCode::DisconnectedException, "client closed the connection");
         }
         buffer.resize(old_size + read_bytes);

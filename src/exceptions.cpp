@@ -5,8 +5,9 @@ ErrnoException::ErrnoException(const int errnum)
 {
 }
 
-Exception::Exception(ExceptionCode code, const std::string &message)
-    : _code(code), _message(message)
+Exception::Exception(ExceptionCode code, const std::string& message)
+    : _code(code)
+    , _message(message)
 {
 }
 

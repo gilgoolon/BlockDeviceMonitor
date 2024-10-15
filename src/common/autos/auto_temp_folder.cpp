@@ -1,11 +1,10 @@
 #include "auto_temp_folder.hpp"
 #include "../os_utils.hpp"
 
-Autos::AutoTempFolder::AutoTempFolder(const std::string &template_name)
+Autos::AutoTempFolder::AutoTempFolder(const std::string& template_name)
     : _path(template_name)
 {
-    if (MOUNT_ERROR_VALUE == mkdtemp(const_cast<char *>(_path.c_str())))
-    {
+    if (MOUNT_ERROR_VALUE == mkdtemp(const_cast<char*>(_path.c_str()))) {
         throw ErrnoException();
     }
 }

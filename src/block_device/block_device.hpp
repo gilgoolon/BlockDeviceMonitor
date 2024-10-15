@@ -3,8 +3,7 @@
 
 #include "../common/unix.hpp"
 
-class BlockDevice final
-{
+class BlockDevice final {
 public:
     explicit BlockDevice(std::string device_name);
 

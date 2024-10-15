@@ -1,16 +1,15 @@
 #pragma once
-#include <mutex>
 #include <memory>
+#include <mutex>
 #include <vector>
 
 #include "../proto/rule.pb.h"
 
-class RulesManager final
-{
+class RulesManager final {
 public:
     explicit RulesManager();
 
-    void add_rule(const Rule &rule);
+    void add_rule(const Rule& rule);
 
     void remove_rule(uint32_t rule_index);
 

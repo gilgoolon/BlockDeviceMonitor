@@ -6,12 +6,12 @@ Autos::AutoFd::AutoFd(const int fd)
 {
 }
 
-Autos::AutoFd::AutoFd(const AutoFd &&fd)
+Autos::AutoFd::AutoFd(const AutoFd&& fd)
 {
     _fd = fd._fd;
 }
 
-Autos::AutoFd &Autos::AutoFd::operator=(const AutoFd &&fd)
+Autos::AutoFd& Autos::AutoFd::operator=(const AutoFd&& fd)
 {
     _fd = fd._fd;
     return *this;
@@ -19,15 +19,11 @@ Autos::AutoFd &Autos::AutoFd::operator=(const AutoFd &&fd)
 
 Autos::AutoFd::~AutoFd()
 {
-    try
-    {
-        if (OS::UNIX_INT_ERROR_VALUE != _fd)
-        {
+    try {
+        if (OS::UNIX_INT_ERROR_VALUE != _fd) {
             OS::covered_call(::close, _fd);
         }
-    }
-    catch (...)
-    {
+    } catch (...) {
     }
 }
 

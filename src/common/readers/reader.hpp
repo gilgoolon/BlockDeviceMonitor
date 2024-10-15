@@ -4,8 +4,7 @@
 #include "../buffer.hpp"
 using Buffer::VBuffer;
 
-class IReader
-{
+class IReader {
 public:
     virtual ~IReader() = default;
 

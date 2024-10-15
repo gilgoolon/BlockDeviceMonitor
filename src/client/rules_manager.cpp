@@ -6,7 +6,7 @@ RulesManager::RulesManager()
 {
 }
 
-void RulesManager::add_rule(const Rule &rule)
+void RulesManager::add_rule(const Rule& rule)
 {
     Autos::AutoLock auto_lock(_mutex);
     _rules.push_back(rule);

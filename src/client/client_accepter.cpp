@@ -1,6 +1,6 @@
 #include "client_accepter.hpp"
-#include "../common/writers/socket_writer.hpp"
 #include "../common/readers/socket_reader.hpp"
+#include "../common/writers/socket_writer.hpp"
 
 ClientAccepter::ClientAccepter(std::unique_ptr<ServerSocket> server_socket, const size_t max_backlog)
     : _server_socket(std::move(server_socket))

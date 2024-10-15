@@ -1,13 +1,12 @@
 #pragma once
-#include <string>
 #include <map>
+#include <string>
 
-class UDevEvent final
-{
+class UDevEvent final {
 public:
-    explicit UDevEvent(const std::string &event);
+    explicit UDevEvent(const std::string& event);
 
-    std::string get_attribute(const std::string &name) const;
+    std::string get_attribute(const std::string& name) const;
 
     std::string get_action() const;
 
@@ -25,5 +24,5 @@ private:
     std::string _description;
     std::map<std::string, std::string> _attributes;
 
-    void parse_event(const std::string &event);
+    void parse_event(const std::string& event);
 };

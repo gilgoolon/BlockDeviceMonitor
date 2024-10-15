@@ -3,10 +3,9 @@
 
 #include "writer.hpp"
 
-class ConsoleWriter final : public IWriter
-{
+class ConsoleWriter final : public IWriter {
 public:
     explicit ConsoleWriter() = default;
 
-    void write(const Buffer::VBuffer &data) override;
+    void write(const Buffer::VBuffer& data) override;
 };

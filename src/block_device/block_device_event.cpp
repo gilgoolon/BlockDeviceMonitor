@@ -1,23 +1,18 @@
 #include "block_device_event.hpp"
 #include "../exceptions.hpp"
 
-BlockDeviceEventAction to_block_device_event_action(const std::string &action)
+BlockDeviceEventAction to_block_device_event_action(const std::string& action)
 {
-    if (action == "add")
-    {
+    if (action == "add") {
         return BlockDeviceEventAction::ADD;
-    }
-    else if (action == "remove")
-    {
+    } else if (action == "remove") {
         return BlockDeviceEventAction::REMOVE;
-    }
-    else
-    {
+    } else {
         throw Exception(ExceptionCode::InvalidArgument, "unmapped action value '" + action + "' in to_action(string)");
     }
 }
 
-BlockDeviceEvent make_block_device_event(const BlockDevice &block_device, const UDevEvent &udev_event)
+BlockDeviceEvent make_block_device_event(const BlockDevice& block_device, const UDevEvent& udev_event)
 {
     BlockDeviceEvent event;
     EMPTY_CATCH_BEG

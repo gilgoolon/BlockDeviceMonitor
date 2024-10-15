@@ -3,10 +3,9 @@
 
 #include "../buffer.hpp"
 
-class IWriter
-{
+class IWriter {
 public:
     virtual ~IWriter() = default;
 
-    virtual void write(const Buffer::VBuffer &data) = 0;
+    virtual void write(const Buffer::VBuffer& data) = 0;
 };

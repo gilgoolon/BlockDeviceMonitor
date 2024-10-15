@@ -1,8 +1,7 @@
 #pragma once
-#include <memory>
 #include "../common/network/socket.hpp"
+#include <memory>
 
-namespace Netlink
-{
-    std::shared_ptr<Socket> make_netlink_uevent_socket();
+namespace Netlink {
+std::shared_ptr<Socket> make_netlink_uevent_socket();
 };

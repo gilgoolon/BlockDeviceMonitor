@@ -1,9 +1,9 @@
 #include <sstream>
 #include <string>
 
-#include "partition_table.hpp"
-#include "../common/string_utils.hpp"
 #include "../common/os_utils.hpp"
+#include "../common/string_utils.hpp"
+#include "partition_table.hpp"
 
 static constexpr std::string_view PARTITION_TABLE_PATH = "/proc/partitions";
 
@@ -13,7 +13,7 @@ std::vector<PartitionTableEntry> get_partition_table()
     return parse_partition_table(partition_table_data);
 }
 
-std::vector<PartitionTableEntry> parse_partition_table(const std::string &partition_table)
+std::vector<PartitionTableEntry> parse_partition_table(const std::string& partition_table)
 {
     std::vector<PartitionTableEntry> entries;
     std::istringstream partition_table_stream(partition_table);
@@ -22,13 +22,11 @@ std::vector<PartitionTableEntry> parse_partition_table(const std::string &partit
     std::getline(partition_table_stream, line); // Header: major minor  #blocks  name
     std::getline(partition_table_stream, line); // An empty line
 
-    while (std::getline(partition_table_stream, line))
-    {
+    while (std::getline(partition_table_stream, line)) {
         std::istringstream iss(line);
         PartitionTableEntry entry;
 
-        if (iss >> entry.major >> entry.minor >> entry.blocks >> entry.name)
-        {
+        if (iss >> entry.major >> entry.minor >> entry.blocks >> entry.name) {
             entries.push_back(entry);
         }
     }

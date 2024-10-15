@@ -3,8 +3,7 @@
 #include "reader.hpp"
 using Buffer::VBuffer;
 
-class SocketReader final : public IReader
-{
+class SocketReader final : public IReader {
 public:
     SocketReader(std::shared_ptr<Socket> socket);
 

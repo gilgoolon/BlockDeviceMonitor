@@ -2,15 +2,14 @@
 #include <string>
 #include <vector>
 
-namespace Strings
-{
-    constexpr size_t SPLIT_ONCE = 1;
+namespace Strings {
+constexpr size_t SPLIT_ONCE = 1;
 
-    std::vector<std::string> split(const std::string &string, char token, size_t max);
+std::vector<std::string> split(const std::string& string, char token, size_t max);
 
-    std::string strip(const std::string &str, char token);
+std::string strip(const std::string& str, char token);
 
-    std::string to_string(char c);
+std::string to_string(char c);
 
-    bool starts_with(const std::string &str, const std::string &prefix);
-};
+bool starts_with(const std::string& str, const std::string& prefix);
+}; // namespace Strings

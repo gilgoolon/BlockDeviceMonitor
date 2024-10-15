@@ -1,9 +1,9 @@
-#include <stdexcept>
 #include <iostream>
+#include <stdexcept>
 
-#include "udev_event.hpp"
 #include "../common/string_utils.hpp"
 #include "../exceptions.hpp"
+#include "udev_event.hpp"
 
 static constexpr char ATTRIBUTE_NAME_VALUE_SEPARATOR = '=';
 static constexpr size_t EXPECTED_TOKENS_EVENT_ATTRIBUTE = 2;
@@ -15,20 +15,18 @@ static constexpr std::string_view SUBSYSTEM_BLOCK = "block";
 static constexpr std::string_view ACTION_LABEL_ADD = "add";
 static constexpr std::string_view ACTION_LABEL_REMOVE = "remove";
 
-UDevEvent::UDevEvent(const std::string &event)
+UDevEvent::UDevEvent(const std::string& event)
 {
     parse_event(event);
 }
 
-void UDevEvent::parse_event(const std::string &event)
+void UDevEvent::parse_event(const std::string& event)
 {
     size_t total_length = 0;
     bool is_first = true;
-    for (std::string current = event.data() + total_length; current.length(); current = std::string(event.data() + total_length))
-    {
+    for (std::string current = event.data() + total_length; current.length(); current = std::string(event.data() + total_length)) {
         total_length += current.size() + 1;
-        if (is_first)
-        {
+        if (is_first) {
             is_first = false;
             _description = current;
             continue;
@@ -44,10 +42,9 @@ void UDevEvent::parse_event(const std::string &event)
     }
 }
 
-std::string UDevEvent::get_attribute(const std::string &name) const
+std::string UDevEvent::get_attribute(const std::string& name) const
 {
-    if (_attributes.contains(name))
-    {
+    if (_attributes.contains(name)) {
         return _attributes.at(name);
     }
     throw Exception(ExceptionCode::MissingInformation, "no attribute with name '" + name + "' for UDevEvent");

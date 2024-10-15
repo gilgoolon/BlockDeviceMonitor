@@ -1,21 +1,19 @@
 #pragma once
+#include <cerrno>
+#include <cstring>
+#include <sstream>
 #include <stdexcept>
 #include <string>
-#include <cstring>
-#include <cerrno>
-#include <sstream>
 
 #define EMPTY_CATCH_BEG \
-    try                 \
-    {
-#define EMPTY_CATCH_END(exception_code)  \
-    }                                    \
-    catch (const Exception &ex)          \
-    {                                    \
-        if (ex.code() != exception_code) \
-        {                                \
-            throw ex;                    \
-        }                                \
+    try {
+#define EMPTY_CATCH_END(exception_code)    \
+    }                                      \
+    catch (const Exception& ex)            \
+    {                                      \
+        if (ex.code() != exception_code) { \
+            throw ex;                      \
+        }                                  \
     }
 
 #define DEFINE_EXCEPTION_CODES       \
@@ -30,8 +28,7 @@
 #define ENUM_CODE(code) code,
 
 // Create the enum using the macro
-enum class ExceptionCode : uint32_t
-{
+enum class ExceptionCode : uint32_t {
     DEFINE_EXCEPTION_CODES
 };
 
@@ -43,18 +40,16 @@ enum class ExceptionCode : uint32_t
 
 inline std::string to_string(ExceptionCode code)
 {
-    switch (code)
-    {
+    switch (code) {
         DEFINE_EXCEPTION_CODES
     default:
         throw std::invalid_argument(std::string("invalid ExceptionCode value ") + std::to_string(static_cast<uint32_t>(code)) + " passed to to_string(ExceptionCode)");
     }
 }
 
-class Exception
-{
+class Exception {
 public:
-    explicit Exception(ExceptionCode code, const std::string &message);
+    explicit Exception(ExceptionCode code, const std::string& message);
 
     virtual std::string what() const;
 
@@ -65,8 +60,7 @@ private:
     std::string _message;
 };
 
-class ErrnoException final : public Exception
-{
+class ErrnoException final : public Exception {
 public:
     ErrnoException(int errnum = errno);
 };

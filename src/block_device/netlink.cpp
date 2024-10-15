@@ -1,8 +1,8 @@
-#include <sys/socket.h>
 #include <linux/netlink.h>
+#include <sys/socket.h>
 
-#include "netlink.hpp"
 #include "../common/os_utils.hpp"
+#include "netlink.hpp"
 
 static constexpr size_t NETLINK_BROADCAST = 1;
 
@@ -15,7 +15,7 @@ std::shared_ptr<Socket> Netlink::make_netlink_uevent_socket()
     sa.nl_family = AF_NETLINK;
     sa.nl_pid = getpid();
     sa.nl_groups = NETLINK_BROADCAST;
-    OS::covered_call(::bind, auto_sock->get_socket_fd(), reinterpret_cast<sockaddr *>(&sa), sizeof(sa));
+    OS::covered_call(::bind, auto_sock->get_socket_fd(), reinterpret_cast<sockaddr*>(&sa), sizeof(sa));
 
     return std::move(auto_sock);
 }

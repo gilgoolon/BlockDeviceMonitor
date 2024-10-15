@@ -2,13 +2,14 @@
 #include <sys/socket.h>
 #include <unistd.h>
 
-#include "server_socket.hpp"
 #include "../os_utils.hpp"
 #include "../unix.hpp"
+#include "server_socket.hpp"
 
-ServerSocket::ServerSocket(const uint32_t port) : _socket_fd(
-                                                      OS::covered_call(::socket, AF_INET,
-                                                                       SOCK_STREAM, Flags::DEFAULT_NO_FLAGS))
+ServerSocket::ServerSocket(const uint32_t port)
+    : _socket_fd(
+          OS::covered_call(::socket, AF_INET,
+              SOCK_STREAM, Flags::DEFAULT_NO_FLAGS))
 {
     bind(port);
 }
@@ -16,14 +17,14 @@ ServerSocket::ServerSocket(const uint32_t port) : _socket_fd(
 void ServerSocket::listen(const size_t max_connections) const
 {
     OS::covered_call(::listen, *_socket_fd,
-                     max_connections);
+        max_connections);
 }
 
 std::shared_ptr<Socket> ServerSocket::accept() const
 {
     return std::make_shared<Socket>(
         OS::covered_call(::accept, *_socket_fd,
-                         Flags::OPTIONAL_NO_OUTPUT, Flags::OPTIONAL_NO_OUTPUT));
+            Flags::OPTIONAL_NO_OUTPUT, Flags::OPTIONAL_NO_OUTPUT));
 }
 
 void ServerSocket::shutdown() const
@@ -38,6 +39,6 @@ void ServerSocket::bind(const uint32_t port) const
     server_address.sin_port = ::htons(port);
     server_address.sin_addr.s_addr = INADDR_ANY;
     OS::covered_call(::bind, *_socket_fd,
-                     reinterpret_cast<const sockaddr *>(&server_address),
-                     sizeof(server_address));
+        reinterpret_cast<const sockaddr*>(&server_address),
+        sizeof(server_address));
 }
